@@ -32,7 +32,7 @@ const StyledButton = styled.button`
   padding: 8px; /* 버튼 내부 여백 */
 
   border: none;
-  border-radius: 4px;
+  border-radius: ${({ radius }) => (radius ? radius : '4px')}; /* 기본값 4px */
 
   color: white;
 
