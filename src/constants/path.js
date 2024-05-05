@@ -1,5 +1,6 @@
 const PATH = {
   ROOT: '/',
+
   LOGIN: '/login',
   SIGN_UP: '/signup',
 };
