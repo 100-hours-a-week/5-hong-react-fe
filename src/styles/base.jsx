@@ -18,6 +18,10 @@ const base = css`
     background-color: var(--white-1);
   }
 
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
   h1 {
     font-family: SUIT-Bold, sans-serif;
     font-size: 3.6rem;
