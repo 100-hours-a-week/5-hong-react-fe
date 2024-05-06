@@ -8,3 +8,7 @@ export const Hr = styled.hr`
 
   border: 1px solid #00000029;
 `;
+
+export const Highlight = styled.span`
+  font-weight: bold;
+`;
