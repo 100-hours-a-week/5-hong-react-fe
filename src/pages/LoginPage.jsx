@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import LoginForm from '@/components/LoginForm/index.jsx';
+import LoginForm from '@/components/LoginForm';
 import PATH from '@/constants/path.js';
 
 function LoginPage() {
@@ -15,6 +15,7 @@ function LoginPage() {
     <StyledSection>
       <StyledLoginArticle>
         <StyledLoginContainer>
+          <StyledText>로그인</StyledText>
           <LoginForm />
           <StyledButton onClick={onClick}>회원가입</StyledButton>
         </StyledLoginContainer>
@@ -24,18 +25,6 @@ function LoginPage() {
 }
 
 export default LoginPage;
-
-const StyledLoginContainer = styled.article`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  width: 392px;
-  height: 90vh; /* 화면 전체 높이의 90%를 차지하도록 설정 */
-
-  text-align: center;
-`;
 
 const StyledSection = styled.section`
   display: flex;
@@ -54,6 +43,25 @@ const StyledLoginArticle = styled.article`
   height: 90vh; /* 화면 전체 높이의 90%를 차지하도록 설정 */
 
   text-align: center;
+`;
+
+const StyledLoginContainer = styled.article`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 392px;
+  height: 90vh; /* 화면 전체 높이의 90%를 차지하도록 설정 */
+
+  text-align: center;
+`;
+
+const StyledText = styled.h1`
+  flex-direction: column;
+  justify-content: center;
+
+  font-weight: bold;
 `;
 
 const StyledButton = styled.button`

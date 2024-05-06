@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import Input from '@/components/Input/index.jsx';
-import Button from '@/components/Button/index.jsx';
+import Input from '@/components/Input';
+import Button from '@/components/Button';
 import REGEX from '@/constants/regex.js';
 
 function LoginForm() {
@@ -65,8 +65,6 @@ function LoginForm() {
 
   return (
     <StyledLoginForm>
-      <StyledText>로그인</StyledText>
-
       <StyledInputContainer>
         <Input
           id={'email'}
@@ -109,16 +107,6 @@ const StyledLoginForm = styled.form`
   margin-bottom: 10px;
 `;
 
-const StyledText = styled.h1`
-  flex-direction: column;
-  justify-content: center;
-
-  height: auto;
-`;
-
 const StyledInputContainer = styled.div`
-  align-items: center;
-
-  min-height: 75px;
-  margin-top: 10px;
+  margin-top: 8px;
 `;
