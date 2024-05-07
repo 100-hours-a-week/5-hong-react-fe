@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Hr } from '@/styles/common.jsx';
+import S from '@/styles/common.jsx';
 import Button from '@/components/Button/index.jsx';
 
 function CommentForm() {
@@ -9,7 +9,7 @@ function CommentForm() {
     <StyledForm>
       <StyledTextarea />
 
-      <Hr />
+      <S.Hr />
 
       <SummitButtonContainer>
         <Button

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Highlight } from '@/styles/common.jsx';
+import S from '@/styles/common.jsx';
 
 function CommentBox() {
   // 임시
@@ -14,7 +14,7 @@ function CommentBox() {
       <OwnerInfoContainer>
         <StyledImage src={imageUrl} alt={'OWNER_PROFILE'} />
         <p>
-          <Highlight>더미 작성자</Highlight>
+          <S.Highlight>더미 작성자</S.Highlight>
         </p>
         <p>2021-01-01 00:00:00</p>
 

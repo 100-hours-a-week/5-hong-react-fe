@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Highlight } from '@/styles/common.jsx';
+import S from '@/styles/common.jsx';
 
 function PostBodyBox() {
   // 임시용
@@ -20,12 +20,12 @@ function PostBodyBox() {
 
       <MetadataContainer>
         <MetadataBox>
-          <Highlight>123</Highlight>
-          <Highlight>조회수</Highlight>
+          <S.Highlight>123</S.Highlight>
+          <S.Highlight>조회수</S.Highlight>
         </MetadataBox>
         <MetadataBox>
-          <Highlight>123</Highlight>
-          <Highlight>댓글</Highlight>
+          <S.Highlight>123</S.Highlight>
+          <S.Highlight>댓글</S.Highlight>
         </MetadataBox>
       </MetadataContainer>
     </>

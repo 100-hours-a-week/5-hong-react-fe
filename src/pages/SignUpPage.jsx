@@ -1,5 +1,6 @@
-import SignUpForm from '@/components/SignUpForm';
 import styled from 'styled-components';
+
+import SignUpForm from '@/components/SignUpForm';
 
 function SignUpPage() {
   return (

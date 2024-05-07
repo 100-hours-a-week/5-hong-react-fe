@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Hr } from '@/styles/common.jsx';
+import S from '@/styles/common.jsx';
 import PostBox from '@/components/PostBox';
 import CommentBox from '@/components/CommentBox';
 import CommentForm from '@/components/CommentForm';
@@ -11,7 +11,7 @@ function PostPage() {
       <StyledArticle>
         <PostBox />
 
-        <Hr />
+        <S.Hr />
 
         <CommentContainer>
           <CommentForm />

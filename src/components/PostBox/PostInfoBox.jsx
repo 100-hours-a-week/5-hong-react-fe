@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Highlight } from '@/styles/common.jsx';
+import S from '@/styles/common.jsx';
 
 // TODO: 컴포넌트 분리, (프로필 이미지 나눠야할 듯 -> 현재 중복 4번 이상)
 function PostInfoBox() {
@@ -18,7 +18,7 @@ function PostInfoBox() {
         <PostInfoContainer>
           <OwnerInfoContainer>
             <StyledImage src={imageUrl} alt={'PROFILE_IMAGE'} />
-            <Highlight>{ownerNickname}</Highlight>
+            <S.Highlight>{ownerNickname}</S.Highlight>
           </OwnerInfoContainer>
 
           <div>

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Hr } from '@/styles/common.jsx';
+import S from '@/styles/common.jsx';
 import PostInfoBox from '@/components/PostBox/PostInfoBox.jsx';
 import PostBodyBox from '@/components/PostBox/PostBodyBox.jsx';
 
@@ -11,7 +11,7 @@ function PostBox() {
         <PostInfoBox />
       </PostInfoBoxContainer>
 
-      <Hr />
+      <S.Hr />
 
       <PostBodyBoxContainer>
         <PostBodyBox />

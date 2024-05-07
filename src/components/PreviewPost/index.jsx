@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Hr } from '@/styles/common.jsx';
+import S from '@/styles/common.jsx';
 import PropTypes from 'prop-types';
 
 PreviewPost.propTypes = {
@@ -31,7 +31,7 @@ function PreviewPost({ onClick }) {
         </PostDetailContainer>
       </PostContainer>
 
-      <Hr />
+      <S.Hr />
 
       <OwnerInfoContainer>
         <StyledImage src={imageUrl} />
