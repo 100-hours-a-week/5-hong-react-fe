@@ -4,23 +4,14 @@ import SignUpForm from '@/components/SignUpForm';
 
 function SignUpPage() {
   return (
-    <StyledSection>
-      <StyledSignUpArticle>
-        <StyledText>회원가입</StyledText>
-        <SignUpForm />
-      </StyledSignUpArticle>
-    </StyledSection>
+    <StyledSignUpArticle>
+      <StyledText>회원가입</StyledText>
+      <SignUpForm />
+    </StyledSignUpArticle>
   );
 }
 
 export default SignUpPage;
-
-const StyledSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
 
 const StyledSignUpArticle = styled.article`
   display: flex;

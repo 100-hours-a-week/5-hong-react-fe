@@ -29,36 +29,27 @@ function MainPage() {
   ));
 
   return (
-    <StyledSection>
-      <StyledPreviewArticle>
-        <TitleContainer>
-          <p>안녕하세요,</p>
-          <p>아무 말 대잔치 게시판 입니다.</p>
-        </TitleContainer>
-        {/* TODO: 게시글 생성 버튼 */}
-        <FormContainer>
-          <Button
-            width={'138px'}
-            text={'게시글 작성'}
-            type={'summit'}
-            onClick={handleCreatePost}
-            radius={'20px'}
-          />
-        </FormContainer>
-        <Container>{repeatedComponents}</Container>
-      </StyledPreviewArticle>
-    </StyledSection>
+    <StyledPreviewArticle>
+      <TitleContainer>
+        <p>안녕하세요,</p>
+        <p>아무 말 대잔치 게시판 입니다.</p>
+      </TitleContainer>
+      {/* TODO: 게시글 생성 버튼 */}
+      <FormContainer>
+        <Button
+          width={'138px'}
+          text={'게시글 작성'}
+          type={'summit'}
+          onClick={handleCreatePost}
+          radius={'20px'}
+        />
+      </FormContainer>
+      <Container>{repeatedComponents}</Container>
+    </StyledPreviewArticle>
   );
 }
 
 export default MainPage;
-
-const StyledSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
 
 const StyledPreviewArticle = styled.article`
   display: flex;

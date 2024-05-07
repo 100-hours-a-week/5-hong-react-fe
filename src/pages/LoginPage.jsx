@@ -12,26 +12,17 @@ function LoginPage() {
   };
 
   return (
-    <StyledSection>
-      <StyledLoginArticle>
-        <StyledLoginContainer>
-          <StyledText>로그인</StyledText>
-          <LoginForm />
-          <StyledButton onClick={onClick}>회원가입</StyledButton>
-        </StyledLoginContainer>
-      </StyledLoginArticle>
-    </StyledSection>
+    <StyledLoginArticle>
+      <StyledLoginContainer>
+        <StyledText>로그인</StyledText>
+        <LoginForm />
+        <StyledButton onClick={onClick}>회원가입</StyledButton>
+      </StyledLoginContainer>
+    </StyledLoginArticle>
   );
 }
 
 export default LoginPage;
-
-const StyledSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
 
 const StyledLoginArticle = styled.article`
   display: flex;

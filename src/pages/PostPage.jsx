@@ -7,34 +7,25 @@ import CommentForm from '@/components/CommentForm';
 
 function PostPage() {
   return (
-    <StyledSection>
-      <StyledArticle>
-        <PostBox />
+    <StyledArticle>
+      <PostBox />
 
-        <S.Hr />
+      <S.Hr />
 
-        <CommentContainer>
-          <CommentForm />
-          <div>
-            {/* 더미용 3개 */}
-            <CommentBox />
-            <CommentBox />
-            <CommentBox />
-          </div>
-        </CommentContainer>
-      </StyledArticle>
-    </StyledSection>
+      <CommentContainer>
+        <CommentForm />
+        <div>
+          {/* 더미용 3개 */}
+          <CommentBox />
+          <CommentBox />
+          <CommentBox />
+        </div>
+      </CommentContainer>
+    </StyledArticle>
   );
 }
 
 export default PostPage;
-
-const StyledSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
 
 const StyledArticle = styled.article`
   display: flex;

@@ -12,6 +12,12 @@ const S = {
   Highlight: styled.span`
     font-weight: bold;
   `,
+  StyledSection: styled.section`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  `,
 };
 
 export default S;
