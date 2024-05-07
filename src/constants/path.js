@@ -5,6 +5,7 @@ const PATH = {
   LOGIN: '/login',
   SIGN_UP: '/signup',
   MAIN: '/',
+  POSTS: '/posts/:id',
 };
 
 export default PATH;

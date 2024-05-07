@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import PreviewPost from '@/components/PreviewPost';
@@ -8,15 +9,23 @@ function MainPage() {
   // TODO: 무한 스크롤 시 스켈레톤 보여주기 (?)
   // TODO: 서버 상태 관리 추가 (Redux vs TanStack query ?)
 
-  const onClick = () => {
-    console.log('누름');
+  // 임시용
+  const navigate = useNavigate();
+
+  const handlePostClick = (postId) => {
+    const location = `/posts/${postId}`;
+    console.log(location);
+    navigate(location);
   };
 
-  // 임시용
+  const handleCreatePost = () => {
+    console.log('게시글 생성 누름');
+  };
+
   const repeatCount = 10;
 
   const repeatedComponents = Array.from({ length: repeatCount }, (_, index) => (
-    <PreviewPost key={index} />
+    <PreviewPost key={index} onClick={() => handlePostClick(index + 1)} />
   ));
 
   return (
@@ -32,11 +41,11 @@ function MainPage() {
             width={'138px'}
             text={'게시글 작성'}
             type={'summit'}
-            onClick={onClick}
+            onClick={handleCreatePost}
             radius={'20px'}
           />
         </FormContainer>
-        <Container onClick={onClick}>{repeatedComponents}</Container>
+        <Container>{repeatedComponents}</Container>
       </StyledPreviewArticle>
     </StyledSection>
   );
