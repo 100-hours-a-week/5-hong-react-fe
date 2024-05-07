@@ -50,6 +50,10 @@ const base = css`
   button {
     cursor: pointer;
   }
+
+  textarea {
+    resize: none;
+  }
 `;
 
 export default base;
