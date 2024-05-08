@@ -6,6 +6,7 @@ import LoginPage from '@/pages/LoginPage.jsx';
 import SignUpPage from '@/pages/SignUpPage.jsx';
 import MainPage from '@/pages/MainPage.jsx';
 import PostPage from '@/pages/PostPage.jsx';
+import MakePostPage from '@/pages/MakePostPage.jsx';
 
 function Router() {
   const router = createBrowserRouter([
@@ -17,6 +18,7 @@ function Router() {
         { path: PATH.SIGN_UP, element: <SignUpPage /> },
         { path: PATH.MAIN, element: <MainPage /> },
         { path: PATH.POSTS, element: <PostPage /> },
+        { path: PATH.MAKE_POSTS, element: <MakePostPage /> },
       ],
     },
   ]);

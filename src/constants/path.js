@@ -6,6 +6,7 @@ const PATH = {
   SIGN_UP: '/signup',
   MAIN: '/',
   POSTS: '/posts/:id',
+  MAKE_POSTS: '/posts/make',
 };
 
 export default PATH;
