@@ -8,6 +8,7 @@ import MainPage from '@/pages/MainPage.jsx';
 import PostPage from '@/pages/PostPage.jsx';
 import MakePostPage from '@/pages/MakePostPage.jsx';
 import EditPostPage from '@/pages/EditPostPage.jsx';
+import EditPasswordPage from '@/pages/EditPasswordPage.jsx';
 
 function Router() {
   const router = createBrowserRouter([
@@ -21,6 +22,7 @@ function Router() {
         { path: PATH.POSTS, element: <PostPage /> },
         { path: PATH.MAKE_POSTS, element: <MakePostPage /> },
         { path: PATH.EDIT_POSTS, element: <EditPostPage /> },
+        { path: PATH.EDIT_PASSWORD, element: <EditPasswordPage /> },
       ],
     },
   ]);

@@ -8,6 +8,7 @@ const PATH = {
   POSTS: '/posts/:id',
   MAKE_POSTS: '/posts/make',
   EDIT_POSTS: '/posts/:id/edit',
+  EDIT_PASSWORD: '/users/edit/password',
 };
 
 export default PATH;
