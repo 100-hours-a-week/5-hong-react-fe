@@ -1,15 +1,16 @@
 import styled from 'styled-components';
 
+import S from '@/styles/common.jsx';
 import PostForm from '@/components/PostForm';
 
 function EditPostPage() {
   return (
-    <>
-      <StyledArticle>
-        <StyledTitle>게시글 수정</StyledTitle>
-        <PostForm />
-      </StyledArticle>
-    </>
+    <StyledArticle>
+      <StyledTitle>
+        <S.Highlight>게시글 수정</S.Highlight>
+      </StyledTitle>
+      <PostForm />
+    </StyledArticle>
   );
 }
 
