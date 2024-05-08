@@ -7,6 +7,7 @@ const PATH = {
   MAIN: '/',
   POSTS: '/posts/:id',
   MAKE_POSTS: '/posts/make',
+  EDIT_POSTS: '/posts/:id/edit',
 };
 
 export default PATH;

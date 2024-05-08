@@ -19,7 +19,9 @@ function MainPage() {
   };
 
   const handleCreatePost = () => {
+    const location = '/posts/make';
     console.log('게시글 생성 누름');
+    navigate(location);
   };
 
   const repeatCount = 10;
