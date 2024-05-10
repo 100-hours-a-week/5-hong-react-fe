@@ -8,6 +8,10 @@ ImageInput.propTypes = {
   image: PropTypes.string,
   label: PropTypes.string,
   helperText: PropTypes.string,
+  showChangeButton: PropTypes.bool,
+  width: PropTypes.string,
+  height: PropTypes.string,
+  $brightness: PropTypes.string,
 };
 
 function ImageInput({
@@ -17,6 +21,10 @@ function ImageInput({
   image,
   label,
   helperText,
+  width,
+  height,
+  showChangeButton = false,
+  $brightness = '0',
   ...props
 }) {
   return (
@@ -26,12 +34,13 @@ function ImageInput({
         <HelperText>{helperText}</HelperText>
       </ProfileImageContainer>
       <CenterContainer>
-        <StyledLabel htmlFor={id}>
+        <StyledLabel htmlFor={id} width={width} height={height}>
           {image ? (
-            <PreviewImage src={image} alt='PREVIEW' />
+            <PreviewImage src={image} alt='PREVIEW' $brightness={$brightness} />
           ) : (
             <StyledAddSign />
           )}
+          {showChangeButton && <ChangeButton>변경</ChangeButton>}
         </StyledLabel>
         <StyledInput
           type={type}
@@ -64,7 +73,7 @@ const CenterContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
-  margin: 10px 0 25px;
+  margin: 10px 0;
 `;
 
 const StyledLabel = styled.label`
@@ -74,8 +83,10 @@ const StyledLabel = styled.label`
 
   position: relative;
 
-  width: 149px;
-  height: 149px;
+  width: ${({ width }) => (width ? width : '149px')};
+  height: ${({ height }) => (height ? height : '149px')};
+
+  margin: ${({ $margin }) => ($margin ? $margin : '0')};
 
   border: none;
   border-radius: 50%;
@@ -95,6 +106,8 @@ const PreviewImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+
+  filter: brightness(${({ $brightness }) => $brightness});
 `;
 
 const StyledAddSign = styled.span`
@@ -125,4 +138,22 @@ const HelperText = styled.span`
 
   color: red;
   font-size: 12px;
+`;
+
+const ChangeButton = styled.span`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  padding: 4px 7px;
+
+  border: 2px solid white;
+  border-radius: 10px;
+
+  color: white;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+
+  transform: translate(-50%, -50%); /* 요소를 수평 및 수직으로 가운데 정렬 */
 `;
