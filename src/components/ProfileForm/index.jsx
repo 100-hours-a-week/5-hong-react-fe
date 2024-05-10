@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import S from '@/styles/common.jsx';
@@ -9,10 +9,15 @@ import ImageInput from '@/components/ImageInput';
 function ProfileForm() {
   // TODO: State 추가하면서 전부 수정
   const email = 'kinjihong9598@gmail.com';
-
   const helperText = '*FIXME';
+  const dummyImage = 'https://avatars.githubusercontent.com/u/144337839?v=4';
 
   const [image, setImage] = useState(null);
+
+  // TODO: state 적용시 삭제
+  useEffect(() => {
+    setImage(dummyImage);
+  }, []);
 
   // 이미지 업로드 onChange
   const onChange = (e) => {
@@ -38,6 +43,10 @@ function ProfileForm() {
           onChange={onChange}
           image={image}
           label={'프로필 사진*'}
+          width={'95px'}
+          height={'95px'}
+          showChangeButton={true}
+          $brightness={'50%'}
         />
       </StyledInputContainer>
 
@@ -60,7 +69,7 @@ function ProfileForm() {
 
       <div>
         <Button width={'100%'} text={'수정 완료'} type={'summit'} />
-        <Button width={'100%'} text={'회원 탈퇴'} type={'button'} />
+        <StyledButton>회원 탈퇴</StyledButton>
       </div>
 
       <div>
@@ -68,7 +77,7 @@ function ProfileForm() {
           width={'100px'}
           text={'수정 완료'}
           type={'summit'}
-          radius={'20px'}
+          $radius={'20px'}
         />
       </div>
     </StyledForm>
@@ -98,4 +107,11 @@ const StyledSubTitle = styled.p`
   font-size: 16px;
   text-align: left;
   margin-bottom: 6px;
+`;
+
+const StyledButton = styled.button`
+  margin: 7px 0 0;
+
+  border: none;
+  background-color: var(--white-1);
 `;

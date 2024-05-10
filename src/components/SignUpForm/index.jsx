@@ -86,6 +86,7 @@ function SignUpForm() {
         text={'회원가입'}
         type={'summit'}
         onClick={onClick}
+        $margin={'15px 0 0'}
       />
     </StyledForm>
   );
