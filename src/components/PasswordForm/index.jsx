@@ -29,7 +29,12 @@ function PasswordForm() {
         />
       </StyledInputContainer>
 
-      <Button type={'summit'} text={'수정하기'} width={'100%'} />
+      <Button
+        type={'summit'}
+        text={'수정하기'}
+        width={'100%'}
+        $margin={'15px 0 0'}
+      />
     </StyledForm>
   );
 }

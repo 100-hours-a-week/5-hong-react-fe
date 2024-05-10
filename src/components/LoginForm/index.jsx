@@ -94,6 +94,7 @@ function LoginForm() {
         width={'100%'}
         disabled={isSubmitDisabled}
         onClick={submitLoginForm}
+        $margin={'15px 0 0'}
       />
     </StyledLoginForm>
   );

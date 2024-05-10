@@ -16,8 +16,8 @@ function CommentForm() {
           width={'90px'}
           text={'댓글작성'}
           type={'summit'}
-          marginTop={'0'}
-          marginRight={'10px'}
+          $margin={'0 15px 0 0'}
+          $radius={'8px'}
         />
       </SummitButtonContainer>
     </StyledForm>
@@ -40,9 +40,9 @@ const StyledForm = styled.form`
 
 const StyledTextarea = styled.textarea`
   width: 490px;
-  margin-top: 20px;
+  margin-top: 25px;
 
-  height: 100px;
+  height: 95px;
 
   border: none;
   outline: none;

@@ -43,7 +43,7 @@ function MainPage() {
           text={'게시글 작성'}
           type={'summit'}
           onClick={handleCreatePost}
-          radius={'20px'}
+          $radius={'20px'}
         />
       </FormContainer>
       <Container>{repeatedComponents}</Container>
