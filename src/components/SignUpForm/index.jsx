@@ -4,18 +4,22 @@ import styled from 'styled-components';
 import ImageInput from '@/components/ImageInput';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
+import REGEX from '@/constants/regex.js';
 
+// TODO: 로그인 이랑 겹치는 부분 전부 hooks 이동
 function SignUpForm() {
+  console.debug('SignUpForm() - rendering');
+
+  // 이미지 업로드 state
   const [image, setImage] = useState(null);
+  const [imageHelperText, setImageHelperText] =
+    useState('*프로필 사진을 추가해주세요.');
 
-  // TODO: 로그인 이랑 겹치는 부분 전부 hooks 이동 후 구현
-  const helperText = 'FIXME';
-
-  // 이미지 업로드 onChange
-  const onChange = (e) => {
+  const onChangeProfileImage = (e) => {
     const file = e.target.files[0];
     if (!file) {
       setImage(null);
+      setImageHelperText('*프로필 사진을 추가해주세요.');
       return;
     }
 
@@ -23,14 +27,127 @@ function SignUpForm() {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       setImage(reader.result);
+      setImageHelperText(null);
     };
   };
+
+  // 이메일 validation
+  const [email, setEmail] = useState(null);
+  const [emailHelperText, setEmailHelperText] =
+    useState('*이메일을 작성해주세요.');
+
+  const onChangeEmail = (e) => {
+    const value = e.target.value;
+
+    if (value.trim().length === 0) {
+      setEmailHelperText('*이메일을 작성해주세요.');
+      setEmail(null);
+      return;
+    }
+
+    if (!REGEX.EMAIL.test(value)) {
+      setEmailHelperText(
+        '*올바른 이메일 주소 형식을 입력해주세요. (예:example@example.com)',
+      );
+      setEmail(null);
+      return;
+    }
+
+    setEmailHelperText(null);
+    setEmail(value);
+  };
+
+  // 비밀번호 validation
+  const [password, setPassword] = useState(null);
+  const [passwordHelperText, setPasswordHelperText] =
+    useState('*비밀번호를 입력해주세요.');
+
+  const onChangePassword = (e) => {
+    const value = e.target.value;
+
+    if (value.trim().length === 0) {
+      setPasswordHelperText('*비밀번호를 입력해주세요.');
+      setPassword(null);
+      return;
+    }
+
+    if (!REGEX.PASSWORD.test(value)) {
+      setPasswordHelperText(
+        '*비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야합니다.',
+      );
+      setPassword(null);
+      return;
+    }
+
+    setPasswordHelperText(null);
+    setPassword(value);
+  };
+
+  // 비밀번호 확인 validation
+  const [passwordConfirm, setPasswordConfirm] = useState(null);
+  const [passwordConfirmHelperText, setPasswordConfirmHelperText] = useState(
+    '*비밀번호를 한번 더 입력해주세요.',
+  );
+
+  const onChangePasswordConfirm = (e) => {
+    const value = e.target.value;
+
+    if (value.trim().length === 0) {
+      setPasswordHelperText('*비밀번호를 한번 더 입력해주세요.');
+      setPasswordConfirm(null);
+      return;
+    }
+
+    if (value !== password) {
+      setPasswordConfirmHelperText('*비밀번호가 일치하지 않습니다');
+      setPasswordConfirm(null);
+      return;
+    }
+
+    setPasswordConfirmHelperText(null);
+    setPasswordConfirm(value);
+  };
+
+  // 닉네임 validation
+  const [nickname, setNickname] = useState(null);
+  const [nicknameHelperText, setNicknameHelperText] =
+    useState('*닉네임을 입력해주세요.');
+
+  const onChangeNickname = (e) => {
+    const value = e.target.value;
+
+    if (value.trim().length === 0) {
+      setNicknameHelperText('*닉네임을 입력해주세요.');
+      setNickname(null);
+      return;
+    }
+
+    if (!REGEX.NICKNAME.test(value)) {
+      setNicknameHelperText(
+        '*닉네임은 띄어쓰기 없이 최대 10자까지 작성 가능합니다.',
+      );
+      setNickname(null);
+      return;
+    }
+
+    setNicknameHelperText(null);
+    setNickname(value);
+  };
+
+  // 버튼 disabled
+  const isSubmitDisabled =
+    !image || !email || !password || !passwordConfirm || !nickname;
 
   // 회원가입 버튼 onClick
   const onClick = (e) => {
     e.preventDefault();
 
     console.log('TODO: TanStack Query 적용 후 완료');
+    console.log('email =', email);
+    console.log('password =', password);
+    console.log('password confirm = ', passwordConfirm);
+    console.log('nickname =', nickname);
+    console.log('image = ', image);
   };
 
   return (
@@ -39,10 +156,10 @@ function SignUpForm() {
         <ImageInput
           id={'file'}
           type={'file'}
-          onChange={onChange}
+          onChange={onChangeProfileImage}
           image={image}
           label={'프로필 사진'}
-          helperText={helperText}
+          helperText={imageHelperText}
         />
       </StyledInputContainer>
       <StyledInputContainer>
@@ -51,7 +168,8 @@ function SignUpForm() {
           type={'text'}
           label={'이메일'}
           required={true}
-          helperText={helperText}
+          onChange={onChangeEmail}
+          helperText={emailHelperText}
         />
       </StyledInputContainer>
       <StyledInputContainer>
@@ -60,7 +178,8 @@ function SignUpForm() {
           type={'password'}
           label={'비밀번호'}
           required={true}
-          helperText={helperText}
+          onChange={onChangePassword}
+          helperText={passwordHelperText}
         />
       </StyledInputContainer>
       <StyledInputContainer>
@@ -69,7 +188,8 @@ function SignUpForm() {
           type={'password'}
           label={'비밀번호 확인'}
           required={true}
-          helperText={helperText}
+          onChange={onChangePasswordConfirm}
+          helperText={passwordConfirmHelperText}
         />
       </StyledInputContainer>
       <StyledInputContainer>
@@ -78,7 +198,8 @@ function SignUpForm() {
           type={'text'}
           label={'닉네임'}
           required={true}
-          helperText={helperText}
+          onChange={onChangeNickname}
+          helperText={nicknameHelperText}
         />
       </StyledInputContainer>
       <Button
@@ -86,6 +207,7 @@ function SignUpForm() {
         text={'회원가입'}
         type={'summit'}
         onClick={onClick}
+        disabled={isSubmitDisabled}
         $margin={'15px 0 0'}
       />
     </StyledForm>
