@@ -14,17 +14,17 @@ function ProfileNav() {
 
   const goUpdateProfile = () => {
     console.log('TODO: 프로필 수정');
-    navigate(PATH.ROOT);
+    navigate(PATH.EDIT_PROFILE);
   };
 
   const goUpdatePassword = () => {
     console.log('TODO: 비밀번호 수정');
-    navigate(PATH.ROOT);
+    navigate(PATH.EDIT_PASSWORD);
   };
 
   const logout = () => {
     console.log('TODO: 로그아웃');
-    navigate(PATH.ROOT);
+    navigate(PATH.LOGIN);
   };
 
   return (
