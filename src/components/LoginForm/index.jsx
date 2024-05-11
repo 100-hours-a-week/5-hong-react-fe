@@ -4,35 +4,39 @@ import styled from 'styled-components';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
 import REGEX from '@/constants/regex.js';
+import VALIDATE_MESSAGES from '@/constants/validateMessages.js';
 
 function LoginForm() {
+  console.debug('LoginForm() - rendering');
+
   // TODO: hook 으로 분리
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [emailHelperText, setEmailHelperText] = useState(
+    VALIDATE_MESSAGES.EMAIL.REQUIRED,
+  );
+  const [passwordHelperText, setPasswordHelperText] = useState(
+    VALIDATE_MESSAGES.PASSWORD.REQUIRED,
+  );
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailHelperText, setEmailHelperText] = useState('');
-  const [passwordHelperText, setPasswordHelperText] = useState('');
-
-  const isSubmitDisabled = email.length === 0 || password.length === 0;
+  const isSubmitDisabled = !email || !password;
 
   const onChangeEmail = (e) => {
     const value = e.target.value;
 
     if (value.trim().length === 0) {
-      setEmailHelperText('*이메일을 입력해주세요.');
-      setEmail(value);
+      setEmailHelperText(VALIDATE_MESSAGES.EMAIL.REQUIRED);
+      setEmail(null);
       return;
     }
 
     if (!REGEX.EMAIL.test(value)) {
-      setEmailHelperText(
-        '*올바른 이메일 주소 형식을 입력해주세요. (예:example@example.com)',
-      );
-      setEmail('');
+      setEmailHelperText(VALIDATE_MESSAGES.EMAIL.INVALID);
+      setEmail(null);
       return;
     }
 
-    setEmailHelperText('');
+    setEmailHelperText(null);
     setEmail(value);
   };
 
@@ -40,20 +44,18 @@ function LoginForm() {
     const value = e.target.value;
 
     if (value.trim().length === 0) {
-      setPasswordHelperText('*비밀번호를 입력해주세요.');
-      setPassword('');
+      setPasswordHelperText(VALIDATE_MESSAGES.PASSWORD.REQUIRED);
+      setPassword(null);
       return;
     }
 
     if (!REGEX.PASSWORD.test(value)) {
-      setPasswordHelperText(
-        '*비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야합니다.',
-      );
-      setPassword('');
+      setPasswordHelperText(VALIDATE_MESSAGES.PASSWORD.INVALID);
+      setPassword(null);
       return;
     }
 
-    setPasswordHelperText('');
+    setPasswordHelperText(null);
     setPassword(value);
   };
 
@@ -61,6 +63,8 @@ function LoginForm() {
     e.preventDefault();
 
     console.log('TanStack query 적용');
+    console.log('email =', email);
+    console.log('password =', password);
   };
 
   return (
