@@ -1,12 +1,33 @@
 import styled from 'styled-components';
 
 import S from '@/styles/common.jsx';
+import { useCallback, useState } from 'react';
+import Modal from '@/components/Modal/index.jsx';
 
 // TODO: 컴포넌트 분리, (프로필 이미지 나눠야할 듯 -> 현재 중복 4번 이상)
 function PostInfoBox() {
   // 임시
   const imageUrl = 'https://avatars.githubusercontent.com/u/144337839?v=4';
   const ownerNickname = '더미 사용자';
+
+  // Modal state
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpenModal = useCallback(() => {
+    setIsOpen(true);
+    document.body.style.overflow = 'hidden'; // 스크롤 이벤트 방지
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setIsOpen(false);
+    document.body.style.overflow = 'auto'; // 스크롤 이벤트 방지
+  }, []);
+
+  const handleConfirm = (e) => {
+    e.preventDefault();
+
+    console.log('누름');
+  };
 
   return (
     <>
@@ -28,9 +49,19 @@ function PostInfoBox() {
 
         <ButtonContainer>
           <StyledButton>수정</StyledButton>
-          <StyledButton>삭제</StyledButton>
+          <StyledButton onClick={handleOpenModal}>삭제</StyledButton>
         </ButtonContainer>
       </PostDetailContainer>
+
+      {/*TODO: 추후 전역 hooks 로 관리 (리팩토링)*/}
+      {isOpen && (
+        <Modal
+          title={'게시글을 삭제하시겠습니까?'}
+          contents={'삭제한 내용은 복구 할 수 없습니다.'}
+          handleClose={handleCloseModal}
+          handleConfirm={handleConfirm}
+        />
+      )}
     </>
   );
 }
