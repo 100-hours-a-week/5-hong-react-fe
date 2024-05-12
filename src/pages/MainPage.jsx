@@ -1,8 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import PreviewPost from '@/components/PreviewPost';
 import Button from '@/components/Button';
+import PostList from '@/components/PostList';
+
+// mock
+import postList from '@/mocks/postList.js';
 
 function MainPage() {
   // TODO: 게시글 무한 스크롤 구현
@@ -12,23 +15,10 @@ function MainPage() {
   // 임시용
   const navigate = useNavigate();
 
-  const handlePostClick = (postId) => {
-    const location = `/posts/${postId}`;
-    console.log(location);
-    navigate(location);
-  };
-
   const handleCreatePost = () => {
     const location = '/posts/make';
-    console.log('게시글 생성 누름');
     navigate(location);
   };
-
-  const repeatCount = 10;
-
-  const repeatedComponents = Array.from({ length: repeatCount }, (_, index) => (
-    <PreviewPost key={index} onClick={() => handlePostClick(index + 1)} />
-  ));
 
   return (
     <StyledPreviewArticle>
@@ -36,17 +26,16 @@ function MainPage() {
         <p>안녕하세요,</p>
         <p>아무 말 대잔치 게시판 입니다.</p>
       </TitleContainer>
-      {/* TODO: 게시글 생성 버튼 */}
       <FormContainer>
         <Button
           width={'138px'}
           text={'게시글 작성'}
-          type={'summit'}
+          type={'submit'}
           onClick={handleCreatePost}
           $radius={'20px'}
         />
       </FormContainer>
-      <Container>{repeatedComponents}</Container>
+      <PostList posts={postList} />
     </StyledPreviewArticle>
   );
 }
@@ -62,18 +51,6 @@ const StyledPreviewArticle = styled.article`
   height: 90vh; /* 화면 전체 높이의 90%를 차지하도록 설정 */
 
   text-align: center;
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 13px;
-
-  width: 600px;
-
-  margin: 10px auto;
 `;
 
 const TitleContainer = styled.div`

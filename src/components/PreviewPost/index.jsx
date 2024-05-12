@@ -1,41 +1,58 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
-import S from '@/styles/common.jsx';
 import PropTypes from 'prop-types';
 
+import S from '@/styles/common.jsx';
+import { truncateCount, truncateTitle } from '@/utils/truncate.js';
+
 PreviewPost.propTypes = {
-  onClick: PropTypes.func,
+  postsId: PropTypes.number,
+  title: PropTypes.string,
+  likesCount: PropTypes.number,
+  commentsCount: PropTypes.number,
+  hitsCount: PropTypes.number,
+  createdAt: PropTypes.string,
+  author: PropTypes.object,
 };
 
 // TODO: 컴포넌트 분리, (무한스크롤 시) 스켈레톤 고려
-function PreviewPost({ onClick }) {
-  // 임시
-  const likeCount = 0;
-  const commentCount = 0;
-  const hitCount = 0;
-  const imageUrl = 'https://avatars.githubusercontent.com/u/144337839?v=4';
+function PreviewPost({
+  postsId,
+  title,
+  likesCount,
+  commentsCount,
+  hitsCount,
+  createdAt,
+  author,
+}) {
+  const navigate = useNavigate();
+
+  const handleClickPostPreview = () => {
+    const location = `/posts/${postsId}`;
+    navigate(location);
+  };
 
   return (
-    <PostContainerBox onClick={onClick}>
+    <PostContainerBox onClick={handleClickPostPreview}>
       <PostContainer>
         <StyledTitle>
-          <h2>제목 1</h2>
+          <h2>{truncateTitle(title)}</h2>
         </StyledTitle>
         <PostDetailContainer>
           <PostMetaContainer>
-            <p>좋아요 {likeCount} </p>
-            <p>댓글 {commentCount} </p>
-            <p>조회수 {hitCount} </p>
+            <p>좋아요 {truncateCount(likesCount)} </p>
+            <p>댓글 {truncateCount(commentsCount)} </p>
+            <p>조회수 {truncateCount(hitsCount)} </p>
           </PostMetaContainer>
-          <div>2021-01-01 00:00:00</div>
+          <div>{createdAt}</div>
         </PostDetailContainer>
       </PostContainer>
 
       <S.Hr />
 
       <OwnerInfoContainer>
-        <StyledImage src={imageUrl} />
-        <h3>더미 작성자1</h3>
+        <StyledImage src={author.profileImage} />
+        <h3>{author.nickname}</h3>
       </OwnerInfoContainer>
     </PostContainerBox>
   );
@@ -43,7 +60,7 @@ function PreviewPost({ onClick }) {
 
 export default PreviewPost;
 
-const PostContainerBox = styled.div`
+const PostContainerBox = styled.li`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
