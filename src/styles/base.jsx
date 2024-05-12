@@ -6,6 +6,7 @@ const base = css`
     --white-2: #f1f1f1;
     --purple-1: #aca0eb;
     --purple-2: #7f6aee;
+    --dark-gray-1: #888;
   }
 
   html {

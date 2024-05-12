@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import S from '@/styles/common.jsx';
 import PropTypes from 'prop-types';
-import Button from '@/components/Button/index.jsx';
+import Button from '@/components/Button';
 
 Modal.propTypes = {
   title: PropTypes.string.isRequired,
@@ -16,7 +16,7 @@ function Modal({ title, contents, handleClose, handleConfirm }) {
   console.debug('Modal() - rendering');
 
   return createPortal(
-    <ModalWrapper>
+    <ModalWrapper onClick={handleClose}>
       <ModalContainer>
         <StyledTitle>
           <S.Highlight>{title}</S.Highlight>
@@ -25,7 +25,7 @@ function Modal({ title, contents, handleClose, handleConfirm }) {
         <ButtonContainer>
           <CloseModalButton onClick={handleClose}>취소</CloseModalButton>
           <Button
-            type={'summit'}
+            type={'submit'}
             text={'확인'}
             onClick={handleConfirm}
             width={'127px'}
