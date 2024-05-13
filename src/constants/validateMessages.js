@@ -20,6 +20,11 @@ const VALIDATE_MESSAGES = {
     REQUIRED: '*닉네임을 입력해주세요.',
     INVALID: '*닉네임은 띄어쓰기 없이 최대 10자까지 작성 가능합니다.',
   },
+  POSTS: {
+    REQUIRED: '*제목과 내용을 모두 입력해주세요.',
+    TITLE_REQUIRED: '*제목을 입력해주세요.',
+    CONTENTS_REQUIRED: '*내용을 입력해주세요.',
+  },
 };
 
 export default VALIDATE_MESSAGES;
