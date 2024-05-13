@@ -2,25 +2,20 @@ import styled from 'styled-components';
 
 import S from '@/styles/common.jsx';
 import PostBox from '@/components/PostBox';
-import CommentBox from '@/components/CommentBox';
-import CommentForm from '@/components/CommentForm';
+import CommentList from '@/components/CommentList';
+
+// mock
+import postDetail from '@/mocks/postDetail.js';
+import commentList from '@/mocks/commentList.js';
 
 function PostPage() {
   return (
     <StyledArticle>
-      <PostBox />
+      <PostBox post={postDetail} />
 
       <S.Hr />
 
-      <CommentContainer>
-        <CommentForm />
-        <div>
-          {/* 더미용 3개 */}
-          <CommentBox />
-          <CommentBox />
-          <CommentBox />
-        </div>
-      </CommentContainer>
+      <CommentList comments={commentList} />
     </StyledArticle>
   );
 }
@@ -36,13 +31,4 @@ const StyledArticle = styled.article`
   width: 600px;
 
   text-align: center;
-`;
-
-const CommentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  gap: 10px;
-
-  width: 600px;
 `;
