@@ -1,18 +1,21 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import S from '@/styles/common.jsx';
 
-function PostBodyBox() {
-  // 임시용
-  const imageUrl = 'https://avatars.githubusercontent.com/u/144337839?v=4';
-  const contents =
-    '무엇을 이야기 할까요 무엇을 이야기 할까요 무엇을 이야기 할까요 무엇을 이야기 할까요 무엇을 이야기 할까요';
+PostBodyBox.propTypes = {
+  thumbnail: PropTypes.string,
+  contents: PropTypes.string,
+  hitsCount: PropTypes.number,
+  commentsCount: PropTypes.number,
+};
 
+function PostBodyBox({ thumbnail, contents, hitsCount, commentsCount }) {
   return (
     <>
       <ThumbnailContainer>
         <ThumbnailBox>
-          <StyledImage src={imageUrl} alt={'THUMBNAIL'} />
+          <StyledImage src={thumbnail} alt={'THUMBNAIL'} />
         </ThumbnailBox>
       </ThumbnailContainer>
 
@@ -20,11 +23,11 @@ function PostBodyBox() {
 
       <MetadataContainer>
         <MetadataBox>
-          <S.Highlight>123</S.Highlight>
+          <S.Highlight>{hitsCount}</S.Highlight>
           <S.Highlight>조회수</S.Highlight>
         </MetadataBox>
         <MetadataBox>
-          <S.Highlight>123</S.Highlight>
+          <S.Highlight>{commentsCount}</S.Highlight>
           <S.Highlight>댓글</S.Highlight>
         </MetadataBox>
       </MetadataContainer>

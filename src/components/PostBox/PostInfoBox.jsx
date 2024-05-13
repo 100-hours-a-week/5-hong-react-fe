@@ -1,14 +1,22 @@
+import { useCallback, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import S from '@/styles/common.jsx';
-import { useCallback, useState } from 'react';
-import Modal from '@/components/Modal/index.jsx';
+import Modal from '@/components/Modal';
+
+PostInfoBox.propTypes = {
+  title: PropTypes.string,
+  createdAt: PropTypes.string,
+  author: PropTypes.object,
+  loginUser: PropTypes.object,
+};
 
 // TODO: 컴포넌트 분리, (프로필 이미지 나눠야할 듯 -> 현재 중복 4번 이상)
-function PostInfoBox() {
-  // 임시
-  const imageUrl = 'https://avatars.githubusercontent.com/u/144337839?v=4';
-  const ownerNickname = '더미 사용자';
+function PostInfoBox({ title, createdAt, author, loginUser }) {
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // Modal state
   const [isOpen, setIsOpen] = useState(false);
@@ -23,33 +31,45 @@ function PostInfoBox() {
     document.body.style.overflow = 'auto'; // 스크롤 이벤트 방지
   }, []);
 
-  const handleConfirm = (e) => {
+  const handleDeleteButton = (e) => {
     e.preventDefault();
 
     console.log('누름');
   };
 
+  const handleEditPost = (e) => {
+    e.preventDefault();
+
+    const pathname = location.pathname;
+    console.log(pathname);
+    navigate(`${pathname}/edit`);
+  };
+
   return (
     <>
       <PostTileContainer>
-        <StyledTitle>제목1</StyledTitle>
+        <StyledTitle>{title}</StyledTitle>
       </PostTileContainer>
 
       <PostDetailContainer>
         <PostInfoContainer>
           <OwnerInfoContainer>
-            <StyledImage src={imageUrl} alt={'PROFILE_IMAGE'} />
-            <S.Highlight>{ownerNickname}</S.Highlight>
+            <StyledImage src={author.profileImage} alt={'PROFILE_IMAGE'} />
+            <S.Highlight>{author.nickname}</S.Highlight>
           </OwnerInfoContainer>
 
           <div>
-            <p>2021-01-01 00:00:00</p>
+            <p>{createdAt}</p>
           </div>
         </PostInfoContainer>
 
         <ButtonContainer>
-          <StyledButton>수정</StyledButton>
-          <StyledButton onClick={handleOpenModal}>삭제</StyledButton>
+          {author.memberId === loginUser.memberId && (
+            <>
+              <StyledButton onClick={handleEditPost}>수정</StyledButton>
+              <StyledButton onClick={handleOpenModal}>삭제</StyledButton>
+            </>
+          )}
         </ButtonContainer>
       </PostDetailContainer>
 
@@ -59,7 +79,7 @@ function PostInfoBox() {
           title={'게시글을 삭제하시겠습니까?'}
           contents={'삭제한 내용은 복구 할 수 없습니다.'}
           handleClose={handleCloseModal}
-          handleConfirm={handleConfirm}
+          handleConfirm={handleDeleteButton}
         />
       )}
     </>
