@@ -1,10 +1,21 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import S from '@/styles/common.jsx';
 import Button from '@/components/Button';
 
+PostForm.propTypes = {
+  post: PropTypes.object,
+  onChange: PropTypes.func,
+  onSubmitButton: PropTypes.func,
+  helperText: PropTypes.string,
+  isDisabled: PropTypes.bool,
+};
+
 // TODO: button, input(text, textarea) 수정후 리팩토링
-function MakePostForm() {
+function PostForm({ post, onChange, onSubmitButton, helperText, isDisabled }) {
+  console.debug('PostForm() - rendering');
+
   return (
     <StyledForm>
       <StyledSubTitle>제목*</StyledSubTitle>
@@ -14,7 +25,10 @@ function MakePostForm() {
       <StyledInput
         id={'title'}
         type={'text'}
+        name={'title'}
+        defaultValue={post ? post.title : null}
         placeholder={'제목을 입력해주세요. (최대 26글자)'}
+        onChange={onChange}
       />
 
       <S.Hr />
@@ -23,22 +37,33 @@ function MakePostForm() {
 
       <S.Hr />
 
-      <StyledTextarea placeholder={'내용을 입력해주세요!'}></StyledTextarea>
+      <StyledTextarea
+        name={'contents'}
+        placeholder={'내용을 입력해주세요!'}
+        defaultValue={post ? post.contents : null}
+        onInput={onChange}
+      />
 
       <S.Hr />
 
-      <HelperText>*FIXME</HelperText>
+      <HelperText>{helperText}</HelperText>
       <StyledSubTitle>이미지</StyledSubTitle>
       <StyledFileInput type={'file'} id={'file'} accept={'image/*'} />
 
       <ButtonContainer>
-        <Button width={'350px'} text={'완료'} type={'summit'} />
+        <Button
+          width={'350px'}
+          text={'완료'}
+          type={'submit'}
+          onClick={onSubmitButton}
+          disabled={isDisabled}
+        />
       </ButtonContainer>
     </StyledForm>
   );
 }
 
-export default MakePostForm;
+export default PostForm;
 
 const StyledForm = styled.form`
   display: flex;
