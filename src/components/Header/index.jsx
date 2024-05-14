@@ -4,14 +4,12 @@ import styled from 'styled-components';
 import GoBackNav from '@/components/Header/GoBackNav.jsx';
 import ProfileNav from '@/components/Header/ProfileNav.jsx';
 
-// TODO: 의존성 분리해야할 듯? -> (FSD 아키텍처 공부 후 진행)
-
 function Header() {
   // TODO: hook 이용해서 뒤로가기, 프로필창 보이게 하기
 
   let navigate = useNavigate();
 
-  const goMainPage = () => {
+  const handleGoMain = () => {
     console.log('TODO: 메인 페이지로 이동');
     navigate('/');
   };
@@ -20,7 +18,7 @@ function Header() {
     <StyledHeader>
       <Container>
         <GoBackNav />
-        <StyledTitleText onClick={goMainPage}>아무말 대잔치</StyledTitleText>
+        <StyledTitleText onClick={handleGoMain}>아무말 대잔치</StyledTitleText>
         <ProfileNav />
       </Container>
     </StyledHeader>

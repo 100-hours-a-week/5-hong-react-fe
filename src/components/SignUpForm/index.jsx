@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import ImageInput from '@/components/ImageInput';
@@ -21,7 +21,7 @@ function SignUpForm() {
   );
   const [password, setPassword] = useState(null);
   const [passwordHelperText, setPasswordHelperText] = useState(
-    VALIDATE_MESSAGES.EMAIL.REQUIRED,
+    VALIDATE_MESSAGES.PASSWORD.REQUIRED,
   );
   const [passwordConfirm, setPasswordConfirm] = useState(null);
   const [passwordConfirmHelperText, setPasswordConfirmHelperText] = useState(
@@ -33,7 +33,7 @@ function SignUpForm() {
   );
 
   // 이미지 업로드 event
-  const onChangeProfileImage = (e) => {
+  const handleChangeProfileImage = (e) => {
     const file = e.target.files[0];
     if (!file) {
       setImage(null);
@@ -50,7 +50,7 @@ function SignUpForm() {
   };
 
   // 이메일 유효성 검사 이벤트
-  const onChangeEmail = (e) => {
+  const handleChangeEmail = (e) => {
     const value = e.target.value;
 
     if (value.trim().length === 0) {
@@ -70,7 +70,7 @@ function SignUpForm() {
   };
 
   // 비밀번호 유효성 검사 이벤트
-  const onChangePassword = (e) => {
+  const handleChangePassword = (e) => {
     const value = e.target.value;
 
     if (value.trim().length === 0) {
@@ -90,11 +90,11 @@ function SignUpForm() {
   };
 
   // 비밀번호 확인 유효성 검사 이벤트
-  const onChangePasswordConfirm = (e) => {
+  const handleChangePasswordConfirm = (e) => {
     const value = e.target.value;
 
     if (value.trim().length === 0) {
-      setPasswordHelperText(VALIDATE_MESSAGES.PASSWORD_CONFIRM.REQUIRED);
+      setPasswordConfirmHelperText(VALIDATE_MESSAGES.PASSWORD_CONFIRM.REQUIRED);
       setPasswordConfirm(null);
       return;
     }
@@ -109,8 +109,16 @@ function SignUpForm() {
     setPasswordConfirm(value);
   };
 
+  useEffect(() => {
+    if (passwordConfirm !== password) {
+      setPasswordConfirmHelperText(VALIDATE_MESSAGES.PASSWORD_CONFIRM.MISMATCH);
+      return;
+    }
+    setPasswordConfirmHelperText(null);
+  }, [password, passwordConfirm]);
+
   // 닉네임 유효성 검사 이벤트
-  const onChangeNickname = (e) => {
+  const handleChangeNickname = (e) => {
     const value = e.target.value;
 
     if (value.trim().length === 0) {
@@ -131,10 +139,14 @@ function SignUpForm() {
 
   // 버튼 disabled
   const isSubmitDisabled =
-    !image || !email || !password || !passwordConfirm || !nickname;
+    !!imageHelperText ||
+    !!emailHelperText ||
+    !!passwordHelperText ||
+    !!passwordConfirmHelperText ||
+    !!nicknameHelperText;
 
   // 회원가입 버튼 onClick
-  const onClick = (e) => {
+  const handleSubmitButton = (e) => {
     e.preventDefault();
 
     console.log('TODO: TanStack Query 적용 후 완료');
@@ -151,7 +163,7 @@ function SignUpForm() {
         <ImageInput
           id={'file'}
           type={'file'}
-          onChange={onChangeProfileImage}
+          onChange={handleChangeProfileImage}
           image={image}
           label={'프로필 사진'}
           helperText={imageHelperText}
@@ -163,7 +175,7 @@ function SignUpForm() {
           type={'text'}
           label={'이메일'}
           required={true}
-          onChange={onChangeEmail}
+          onChange={handleChangeEmail}
           helperText={emailHelperText}
         />
       </StyledInputContainer>
@@ -173,7 +185,7 @@ function SignUpForm() {
           type={'password'}
           label={'비밀번호'}
           required={true}
-          onChange={onChangePassword}
+          onChange={handleChangePassword}
           helperText={passwordHelperText}
         />
       </StyledInputContainer>
@@ -183,7 +195,7 @@ function SignUpForm() {
           type={'password'}
           label={'비밀번호 확인'}
           required={true}
-          onChange={onChangePasswordConfirm}
+          onChange={handleChangePasswordConfirm}
           helperText={passwordConfirmHelperText}
         />
       </StyledInputContainer>
@@ -193,15 +205,15 @@ function SignUpForm() {
           type={'text'}
           label={'닉네임'}
           required={true}
-          onChange={onChangeNickname}
+          onChange={handleChangeNickname}
           helperText={nicknameHelperText}
         />
       </StyledInputContainer>
       <Button
         width={'100%'}
         text={'회원가입'}
-        type={'summit'}
-        onClick={onClick}
+        type={'submit'}
+        onClick={handleSubmitButton}
         disabled={isSubmitDisabled}
         $margin={'15px 0 0'}
       />

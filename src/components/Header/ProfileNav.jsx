@@ -12,17 +12,17 @@ function ProfileNav() {
 
   const navigate = useNavigate();
 
-  const goUpdateProfile = () => {
+  const handleGoUpdateProfile = () => {
     console.log('TODO: 프로필 수정');
     navigate(PATH.EDIT_PROFILE);
   };
 
-  const goUpdatePassword = () => {
+  const handleGoEditPassword = () => {
     console.log('TODO: 비밀번호 수정');
     navigate(PATH.EDIT_PASSWORD);
   };
 
-  const logout = () => {
+  const handleLogout = () => {
     console.log('TODO: 로그아웃');
     navigate(PATH.LOGIN);
   };
@@ -34,13 +34,13 @@ function ProfileNav() {
       <ProfileImage src={defaultProfileImage} />
       {isOpen && (
         <DropdownContainer>
-          <DropdownOption onClick={goUpdateProfile}>
+          <DropdownOption onClick={handleGoUpdateProfile}>
             회원정보 수정
           </DropdownOption>
-          <DropdownOption onClick={goUpdatePassword}>
+          <DropdownOption onClick={handleGoEditPassword}>
             비밀번호 변경
           </DropdownOption>
-          <DropdownOption onClick={logout}>로그아웃</DropdownOption>
+          <DropdownOption onClick={handleLogout}>로그아웃</DropdownOption>
         </DropdownContainer>
       )}
     </ProfileContainer>

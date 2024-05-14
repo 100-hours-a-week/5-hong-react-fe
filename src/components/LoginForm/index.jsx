@@ -21,7 +21,7 @@ function LoginForm() {
 
   const isSubmitDisabled = !email || !password;
 
-  const onChangeEmail = (e) => {
+  const handleChangeEmail = (e) => {
     const value = e.target.value;
 
     if (value.trim().length === 0) {
@@ -40,7 +40,7 @@ function LoginForm() {
     setEmail(value);
   };
 
-  const onChangePassword = (e) => {
+  const handleChangePassword = (e) => {
     const value = e.target.value;
 
     if (value.trim().length === 0) {
@@ -59,7 +59,7 @@ function LoginForm() {
     setPassword(value);
   };
 
-  const submitLoginForm = (e) => {
+  const handleSubmitButton = (e) => {
     e.preventDefault();
 
     console.log('TanStack query 적용');
@@ -76,7 +76,7 @@ function LoginForm() {
           label={'이메일'}
           required={true}
           placeholder={'이메일을 입력해주세요.'}
-          onChange={onChangeEmail}
+          onChange={handleChangeEmail}
           helperText={emailHelperText}
         />
       </StyledInputContainer>
@@ -87,17 +87,17 @@ function LoginForm() {
           label={'비밀번호'}
           required={true}
           placeholder={'비밀번호를 입력해주세요.'}
-          onChange={onChangePassword}
+          onChange={handleChangePassword}
           helperText={passwordHelperText}
         />
       </StyledInputContainer>
 
       <Button
-        type={'summit'}
+        type={'submit'}
         text={'로그인'}
         width={'100%'}
         disabled={isSubmitDisabled}
-        onClick={submitLoginForm}
+        onClick={handleSubmitButton}
         $margin={'15px 0 0'}
       />
     </StyledLoginForm>
