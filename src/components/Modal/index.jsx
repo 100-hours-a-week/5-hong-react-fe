@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
@@ -15,15 +16,50 @@ Modal.propTypes = {
 function Modal({ title, contents, handleClose, handleConfirm }) {
   console.debug('Modal() - rendering');
 
+  /**
+   * <h1>이벤트 버블링 방지</h1>
+   * <p>클릭 이벤트가 부모 요소까지 전파되어 `handleClose()` 가 동작되는 버블링 현상 방지</p>
+   * @param {Event} e - 클릭 이벤트 객체
+   */
+  const handleContainerClick = (e) => {
+    e.stopPropagation();
+  };
+
+  /**
+   * <h1>모달 닫기 버튼 클릭 이벤트</h1>
+   * <p>이벤트 버블링을 중단하고 `handleClose()` 호출하여 모달을 닫기</p>
+   * @param {Event} e - 클릭 이벤트 객체
+   */
+  const handleCloseClick = (e) => {
+    e.stopPropagation();
+    handleClose();
+  };
+
+  // 키보드 입력 처리 (Esc 키를 통한 모달 닫기)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        handleClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    // clean-up
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleClose]);
+
   return createPortal(
     <ModalWrapper onClick={handleClose}>
-      <ModalContainer>
+      <ModalContainer onClick={handleContainerClick}>
         <StyledTitle>
           <S.Highlight>{title}</S.Highlight>
         </StyledTitle>
         <StyledText>{contents}</StyledText>
         <ButtonContainer>
-          <CloseModalButton onClick={handleClose}>취소</CloseModalButton>
+          <CloseModalButton onClick={handleCloseClick}>취소</CloseModalButton>
           <Button
             type={'submit'}
             text={'확인'}
