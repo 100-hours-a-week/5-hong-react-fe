@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 Button.propTypes = {
-  type: PropTypes.oneOf(['button', 'summit']).isRequired,
+  type: PropTypes.oneOf(['button', 'submit']).isRequired,
   text: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,

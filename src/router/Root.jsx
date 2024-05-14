@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 
-import Header from '@/components/Header';
 import S from '@/styles/common.jsx';
+import Header from '@/components/Header';
 
 function Root() {
   return (

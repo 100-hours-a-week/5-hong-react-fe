@@ -24,7 +24,7 @@ function ImageInput({
   width,
   height,
   showChangeButton = false,
-  $brightness = '0',
+  $brightness = '1',
   ...props
 }) {
   return (

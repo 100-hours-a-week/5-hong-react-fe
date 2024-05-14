@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import S from '@/styles/common.jsx';
 import ProfileForm from '@/components/ProfileForm/index.jsx';
 
+// mock
+import loginUser from '@/mocks/loginUser.js';
+
 // TODO: 이미지 컨테이너 버튼 수정 후 리팩토링
 // TODO: 컴포넌트 분리
 function EditProfilePage() {
@@ -11,7 +14,7 @@ function EditProfilePage() {
       <StyledTitle>
         <S.Highlight>회원정보수정</S.Highlight>
       </StyledTitle>
-      <ProfileForm />
+      <ProfileForm loginUser={loginUser} />
     </StyledArticle>
   );
 }

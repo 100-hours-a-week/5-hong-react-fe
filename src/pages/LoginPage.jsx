@@ -7,7 +7,7 @@ import PATH from '@/constants/path.js';
 function LoginPage() {
   const navigate = useNavigate();
 
-  const onClick = () => {
+  const handleGoSignUp = () => {
     navigate(PATH.SIGN_UP);
   };
 
@@ -16,7 +16,7 @@ function LoginPage() {
       <StyledLoginContainer>
         <StyledText>로그인</StyledText>
         <LoginForm />
-        <StyledButton onClick={onClick}>회원가입</StyledButton>
+        <StyledButton onClick={handleGoSignUp}>회원가입</StyledButton>
       </StyledLoginContainer>
     </StyledLoginArticle>
   );
