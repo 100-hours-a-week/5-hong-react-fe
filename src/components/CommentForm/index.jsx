@@ -53,7 +53,7 @@ function CommentForm({ isEditing, setIsEditing, currentComment }) {
 
   return (
     <StyledForm>
-      <StyledTextarea onChange={handleTextChange} defaultValue={text} />
+      <StyledTextarea onChange={handleTextChange} value={text} />
 
       <S.Hr />
 

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import S from '@/styles/common.jsx';
+import { truncateCount } from '@/utils/truncate.js';
 
 PostBodyBox.propTypes = {
   thumbnail: PropTypes.string,
@@ -23,11 +24,11 @@ function PostBodyBox({ thumbnail, contents, hitsCount, commentsCount }) {
 
       <MetadataContainer>
         <MetadataBox>
-          <S.Highlight>{hitsCount}</S.Highlight>
+          <S.Highlight>{truncateCount(hitsCount)}</S.Highlight>
           <S.Highlight>조회수</S.Highlight>
         </MetadataBox>
         <MetadataBox>
-          <S.Highlight>{commentsCount}</S.Highlight>
+          <S.Highlight>{truncateCount(commentsCount)}</S.Highlight>
           <S.Highlight>댓글</S.Highlight>
         </MetadataBox>
       </MetadataContainer>
