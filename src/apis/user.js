@@ -1,5 +1,10 @@
 import api from '@/apis/core';
 
+export const getUserInfo = async () => {
+  const url = '/api/v1/members';
+  return await api.get(url);
+};
+
 export const loginUser = async (loginInfo) => {
   const url = '/api/v1/members/login';
   const body = JSON.stringify(loginInfo);
@@ -13,6 +18,11 @@ export const signUpUser = async (userInfo) => {
   const data = { ...rest, profileImage: image }; // TODO: convert 문제 해결해야함
   const body = JSON.stringify(data);
   return await api.post(url, { body });
+};
+
+export const logoutUser = async () => {
+  const url = '/api/v1/members/logout';
+  return await api.post(url);
 };
 
 export const validateEmail = async (email) => {
