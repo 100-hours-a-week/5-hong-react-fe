@@ -1,15 +1,19 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Input from '@/components/Input';
 import Button from '@/components/Button';
 import REGEX from '@/constants/regex.js';
 import VALIDATE_MESSAGES from '@/constants/validateMessages.js';
+import PATH from '@/constants/path.js';
 
+import { loginUser } from '@/apis/user.js';
+
+// TODO: hook 으로 분리
 function LoginForm() {
   console.debug('LoginForm() - rendering');
 
-  // TODO: hook 으로 분리
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [emailHelperText, setEmailHelperText] = useState(
@@ -18,6 +22,7 @@ function LoginForm() {
   const [passwordHelperText, setPasswordHelperText] = useState(
     VALIDATE_MESSAGES.PASSWORD.REQUIRED,
   );
+  const navigate = useNavigate();
 
   const isSubmitDisabled = !email || !password;
 
@@ -59,12 +64,14 @@ function LoginForm() {
     setPassword(value);
   };
 
-  const handleSubmitButton = (e) => {
+  const handleSubmitButton = async (e) => {
     e.preventDefault();
 
-    console.log('TanStack query 적용');
-    console.log('email =', email);
-    console.log('password =', password);
+    await loginUser({ email, password })
+      .then(() => navigate(PATH.MAIN))
+      .catch(() => {
+        setPasswordHelperText('*비밀번호를 확인해주세요.');
+      });
   };
 
   return (
