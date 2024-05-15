@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import ImageInput from '@/components/ImageInput';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
+import PATH from '@/constants/path.js';
 import REGEX from '@/constants/regex.js';
 import VALIDATE_MESSAGES from '@/constants/validateMessages.js';
+
+import { signUpUser, validateEmail, validateNickname } from '@/apis/user.js';
+import { uploadImage } from '@/apis/image.js';
 
 // TODO: 로그인 이랑 겹치는 부분 전부 hooks 이동
 function SignUpForm() {
@@ -31,6 +36,7 @@ function SignUpForm() {
   const [nicknameHelperText, setNicknameHelperText] = useState(
     VALIDATE_MESSAGES.NICKNAME.REQUIRED,
   );
+  const navigate = useNavigate();
 
   // 이미지 업로드 event
   const handleChangeProfileImage = (e) => {
@@ -43,14 +49,19 @@ function SignUpForm() {
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImage(reader.result);
-      setImageHelperText(null);
+    reader.onloadend = async () => {
+      await uploadImage(file)
+        .then((data) => {
+          const { image } = data;
+          setImage(image);
+          setImageHelperText(null);
+        })
+        .catch(() => console.log('이미지 업로드 실패'));
     };
   };
 
   // 이메일 유효성 검사 이벤트
-  const handleChangeEmail = (e) => {
+  const handleChangeEmail = async (e) => {
     const value = e.target.value;
 
     if (value.trim().length === 0) {
@@ -65,8 +76,16 @@ function SignUpForm() {
       return;
     }
 
-    setEmailHelperText(null);
-    setEmail(value);
+    const email = value;
+    await validateEmail({ email })
+      .then(() => {
+        setEmailHelperText(null);
+        setEmail(value);
+      })
+      .catch(() => {
+        setEmailHelperText('*중복된 이메일입니다.');
+        setEmail(null);
+      });
   };
 
   // 비밀번호 유효성 검사 이벤트
@@ -118,7 +137,7 @@ function SignUpForm() {
   }, [password, passwordConfirm]);
 
   // 닉네임 유효성 검사 이벤트
-  const handleChangeNickname = (e) => {
+  const handleChangeNickname = async (e) => {
     const value = e.target.value;
 
     if (value.trim().length === 0) {
@@ -133,8 +152,16 @@ function SignUpForm() {
       return;
     }
 
-    setNicknameHelperText(null);
-    setNickname(value);
+    const nickname = value;
+    await validateNickname({ nickname })
+      .then(() => {
+        setNicknameHelperText(null);
+        setNickname(nickname);
+      })
+      .catch(() => {
+        setNicknameHelperText('*중복된 닉네임입니다.');
+        setNickname(null);
+      });
   };
 
   // 버튼 disabled
@@ -146,15 +173,12 @@ function SignUpForm() {
     !!nicknameHelperText;
 
   // 회원가입 버튼 onClick
-  const handleSubmitButton = (e) => {
+  const handleSubmitButton = async (e) => {
     e.preventDefault();
 
-    console.log('TODO: TanStack Query 적용 후 완료');
-    console.log('email =', email);
-    console.log('password =', password);
-    console.log('password confirm = ', passwordConfirm);
-    console.log('nickname =', nickname);
-    console.log('image = ', image);
+    await signUpUser({ email, password, nickname, image })
+      .then(() => navigate(PATH.LOGIN))
+      .catch(() => console.log('회원가입실패'));
   };
 
   return (
