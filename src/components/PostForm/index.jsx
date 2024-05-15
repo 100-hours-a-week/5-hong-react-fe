@@ -7,13 +7,23 @@ import Button from '@/components/Button';
 PostForm.propTypes = {
   post: PropTypes.object,
   onChange: PropTypes.func,
+  onUploadThumbnail: PropTypes.func,
   onSubmitButton: PropTypes.func,
+  thumbnail: PropTypes.object,
   helperText: PropTypes.string,
   isDisabled: PropTypes.bool,
 };
 
 // TODO: button, input(text, textarea) 수정후 리팩토링
-function PostForm({ post, onChange, onSubmitButton, helperText, isDisabled }) {
+function PostForm({
+  post,
+  onChange,
+  onUploadThumbnail,
+  onSubmitButton,
+  thumbnail,
+  helperText,
+  isDisabled,
+}) {
   console.debug('PostForm() - rendering');
 
   return (
@@ -48,7 +58,13 @@ function PostForm({ post, onChange, onSubmitButton, helperText, isDisabled }) {
 
       <HelperText>{helperText}</HelperText>
       <StyledSubTitle>이미지</StyledSubTitle>
-      <StyledFileInput type={'file'} id={'file'} accept={'image/*'} />
+      <StyledFileInput
+        type={'file'}
+        id={'file'}
+        accept={'image/*'}
+        ref={thumbnail}
+        onChange={onUploadThumbnail}
+      />
 
       <ButtonContainer>
         <Button
