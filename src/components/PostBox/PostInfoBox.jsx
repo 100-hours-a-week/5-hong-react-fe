@@ -5,8 +5,12 @@ import PropTypes from 'prop-types';
 
 import S from '@/styles/common.jsx';
 import Modal from '@/components/Modal';
+import PATH from '@/constants/path.js';
+
+import { deletePost } from '@/apis/post.js';
 
 PostInfoBox.propTypes = {
+  postsId: PropTypes.number,
   title: PropTypes.string,
   createdAt: PropTypes.string,
   author: PropTypes.object,
@@ -14,7 +18,7 @@ PostInfoBox.propTypes = {
 };
 
 // TODO: 컴포넌트 분리, (프로필 이미지 나눠야할 듯 -> 현재 중복 4번 이상)
-function PostInfoBox({ title, createdAt, author, loginUser }) {
+function PostInfoBox({ postsId, title, createdAt, author, loginUser }) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -31,10 +35,12 @@ function PostInfoBox({ title, createdAt, author, loginUser }) {
     document.body.style.overflow = 'auto'; // 스크롤 이벤트 방지
   }, []);
 
-  const handleDeleteButton = (e) => {
+  const handleDeletePostButton = async (e) => {
     e.preventDefault();
 
-    console.log('누름');
+    await deletePost(postsId)
+      .then(() => navigate(PATH.MAIN))
+      .catch(() => console.log('게시글 삭제 실패'));
   };
 
   const handleEditPost = (e) => {
@@ -79,7 +85,7 @@ function PostInfoBox({ title, createdAt, author, loginUser }) {
           title={'게시글을 삭제하시겠습니까?'}
           contents={'삭제한 내용은 복구 할 수 없습니다.'}
           handleClose={handleCloseModal}
-          handleConfirm={handleDeleteButton}
+          handleConfirm={handleDeletePostButton}
         />
       )}
     </>
