@@ -1,59 +1,86 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import S from '@/styles/common.jsx';
 import Button from '@/components/Button';
+import { createComment, updateComment } from '@/apis/comment.js';
 
 CommentForm.propTypes = {
   isEditing: PropTypes.bool,
   setIsEditing: PropTypes.func, // TODO: 커스텀 훅 구현 후 props 에서 삭제
   currentComment: PropTypes.object,
+  setCurrentComment: PropTypes.func,
+  comments: PropTypes.array,
+  setCommentList: PropTypes.func,
 };
 
 // TODO: Common Button 수정되면 변경
-function CommentForm({ isEditing, setIsEditing, currentComment }) {
+function CommentForm({
+  isEditing,
+  setIsEditing,
+  currentComment,
+  setCurrentComment,
+  comments,
+  setCommentList,
+}) {
   console.debug('CommentForm() - rendering');
 
-  const [text, setText] = useState('');
+  const [contents, setContents] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
+  const { postsId } = useParams();
 
   const handleTextChange = (e) => {
-    setText(e.target.value);
+    setContents(e.target.value);
   };
 
-  const handleAddSubmitButton = (e) => {
+  const handleAddSubmitButton = async (e) => {
     e.preventDefault();
 
-    console.log(`새 댓글 추가 => ${text}`);
+    await createComment(postsId, { contents })
+      .then((response) => {
+        setCommentList([response, ...comments]);
+        setContents('');
+      })
+      .catch(() => console.log('댓글 생성 실패'));
   };
 
-  const handleEditSubmitButton = (e) => {
+  const handleEditSubmitButton = async (e) => {
     e.preventDefault();
 
-    console.log(`댓글 수정 => ${text}`);
+    await updateComment(currentComment.commentId, { contents })
+      .then(() => {
+        setCurrentComment(() => ({
+          ...currentComment,
+          contents,
+        }));
+        setContents('');
+        setIsEditing(false);
+      })
+      .catch(() => console.log('댓글 수정 실패'));
   };
 
   useEffect(() => {
     if (isEditing) {
-      setText(currentComment.contents);
+      setContents(currentComment.contents);
     }
   }, [isEditing, currentComment]);
 
   // 댓글 수정중 기존의 댓글을 모두 지우면, 댓글 작성으로 변경
   useEffect(() => {
-    if (text.trim().length === 0) {
+    if (contents.trim().length === 0) {
       setIsDisabled(true);
       setIsEditing(false);
       return;
     }
 
     setIsDisabled(false);
-  }, [text]);
+  }, [contents]);
 
   return (
     <StyledForm>
-      <StyledTextarea onChange={handleTextChange} value={text} />
+      <StyledTextarea onChange={handleTextChange} value={contents} />
 
       <S.Hr />
 
