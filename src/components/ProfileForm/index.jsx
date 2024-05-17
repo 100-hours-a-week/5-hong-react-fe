@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 import S from '@/styles/common.jsx';
 import Input from '@/components/Input';
@@ -10,24 +9,47 @@ import ImageInput from '@/components/ImageInput';
 import Modal from '@/components/Modal';
 import VALIDATE_MESSAGES from '@/constants/validateMessages.js';
 import REGEX from '@/constants/regex.js';
+import PATH from '@/constants/path.js';
 
-ProfileForm.propTypes = {
-  loginUser: PropTypes.object,
-};
+import { uploadImage } from '@/apis/image.js';
+import {
+  getUserInfo,
+  updateProfile,
+  validateNickname,
+  withdrawUser,
+} from '@/apis/user.js';
 
-function ProfileForm({ loginUser }) {
+function ProfileForm() {
   console.debug('ProfileForm() - rendering');
 
+  const [loginUser, setLoginUser] = useState({});
+  const [image, setImage] = useState(null);
+  const [defaultImage, setDefaultImage] = useState(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [nickname, setNickname] = useState(null);
   const [helperText, setHelperText] = useState(
     VALIDATE_MESSAGES.NICKNAME.REQUIRED,
   );
-
   const navigate = useNavigate();
 
+  const fetchLoginInfo = useCallback(async () => {
+    await getUserInfo().then((response) => {
+      setLoginUser({
+        ...response,
+      });
+      setImage(response.profileImage);
+      setDefaultImage(response.profileImage);
+    });
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      await fetchLoginInfo();
+    })();
+  }, [fetchLoginInfo]);
+
   // 닉네임 유효성 검사 이벤트
-  const handleChangeNickname = (e) => {
+  const handleChangeNickname = async (e) => {
     const value = e.target.value;
 
     if (value.trim().length === 0) {
@@ -44,9 +66,18 @@ function ProfileForm({ loginUser }) {
       return;
     }
 
-    setHelperText(null);
-    setNickname(value);
-    setIsDisabled(false);
+    const nickname = value;
+    await validateNickname({ nickname })
+      .then(() => {
+        setHelperText(null);
+        setNickname(nickname);
+        setIsDisabled(false);
+      })
+      .catch(() => {
+        setHelperText('*중복된 닉네임입니다.');
+        setNickname(null);
+        setIsDisabled(true);
+      });
   };
 
   // Modal state
@@ -62,14 +93,13 @@ function ProfileForm({ loginUser }) {
     document.body.style.overflow = 'auto'; // 스크롤 이벤트 방지
   }, []);
 
-  const handleWithdrawButton = (e) => {
+  const handleWithdrawButton = async (e) => {
     e.preventDefault();
 
-    console.log('누름');
+    await withdrawUser()
+      .then(() => navigate(PATH.LOGIN))
+      .catch(() => console.log('회원탈퇴실패'));
   };
-
-  // 이미지 업로드 state
-  const [image, setImage] = useState(null);
 
   useEffect(() => {
     setImage(loginUser.profileImage);
@@ -78,21 +108,30 @@ function ProfileForm({ loginUser }) {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (!file) {
-      setImage(null);
+      setImage(defaultImage);
       return;
     }
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImage(reader.result);
+    reader.onloadend = async () => {
+      await uploadImage(file)
+        .then((data) => {
+          const { image } = data;
+          setImage(image);
+        })
+        .catch(() => console.log('이미지 업로드 실패'));
     };
   };
 
-  const handleUpdateButton = (e) => {
+  const handleUpdateButton = async (e) => {
     e.preventDefault();
 
-    console.log(`nickname: ${nickname}`);
+    await updateProfile({ nickname, image })
+      .then(() => {
+        navigate(PATH.MAIN);
+      })
+      .catch(() => console.log('업데이트 실패'));
   };
 
   const handleGoMain = () => {
