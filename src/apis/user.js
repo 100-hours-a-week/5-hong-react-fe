@@ -37,6 +37,12 @@ export const validateNickname = async (nickname) => {
   return await api.post(url, { body });
 };
 
+export const updatePassword = async (password) => {
+  const url = '/api/v1/members/password';
+  const body = JSON.stringify(password);
+  return await api.put(url, { body });
+};
+
 export const updateProfile = async (updateInfo) => {
   const url = '/api/v1/members/profile';
   const { image, ...rest } = updateInfo;
