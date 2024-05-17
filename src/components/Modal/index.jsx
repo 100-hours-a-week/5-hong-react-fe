@@ -9,11 +9,11 @@ import Button from '@/components/Button';
 Modal.propTypes = {
   title: PropTypes.string.isRequired,
   contents: PropTypes.string.isRequired,
-  handleClose: PropTypes.func.isRequired,
-  handleConfirm: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
 };
 
-function Modal({ title, contents, handleClose, handleConfirm }) {
+function Modal({ title, contents, onClose, onConfirm }) {
   console.debug('Modal() - rendering');
 
   /**
@@ -32,14 +32,14 @@ function Modal({ title, contents, handleClose, handleConfirm }) {
    */
   const handleCloseClick = (e) => {
     e.stopPropagation();
-    handleClose();
+    onClose();
   };
 
   // 키보드 입력 처리 (Esc 키를 통한 모달 닫기)
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
-        handleClose();
+        onClose();
       }
     };
 
@@ -49,10 +49,10 @@ function Modal({ title, contents, handleClose, handleConfirm }) {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleClose]);
+  }, [onClose]);
 
   return createPortal(
-    <ModalWrapper onClick={handleClose}>
+    <ModalWrapper onClick={onClose}>
       <ModalContainer onClick={handleContainerClick}>
         <StyledTitle>
           <S.Highlight>{title}</S.Highlight>
@@ -63,7 +63,7 @@ function Modal({ title, contents, handleClose, handleConfirm }) {
           <Button
             type={'submit'}
             text={'확인'}
-            onClick={handleConfirm}
+            onClick={onConfirm}
             width={'127px'}
             $radius={'15px'}
           />
