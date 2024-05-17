@@ -36,3 +36,16 @@ export const validateNickname = async (nickname) => {
   const body = JSON.stringify(nickname);
   return await api.post(url, { body });
 };
+
+export const updateProfile = async (updateInfo) => {
+  const url = '/api/v1/members/profile';
+  const { image, ...rest } = updateInfo;
+  const data = { ...rest, profileImage: image };
+  const body = JSON.stringify(data);
+  return await api.patch(url, { body });
+};
+
+export const withdrawUser = async () => {
+  const url = '/api/v1/members';
+  return await api.delete(url);
+};
