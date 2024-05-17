@@ -1,16 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import S from '@/styles/common.jsx';
 import PostForm from '@/components/PostForm';
 import VALIDATE_MESSAGES from '@/constants/validateMessages.js';
+import PATH from '@/constants/path.js';
+
+import { uploadImage } from '@/apis/image.js';
+import { createPost } from '@/apis/post.js';
 
 function MakePostPage() {
   console.debug('MakePostPage() - rendering');
 
+  const thumbnail = useRef(null);
+  const navigate = useNavigate();
+
   const [postData, setPostData] = useState({
     title: null,
     contents: null,
+    thumbnail: null,
   });
 
   const [isDisabled, setIsDisabled] = useState(true);
@@ -25,6 +34,25 @@ function MakePostPage() {
       ...data,
       [name]: value,
     }));
+  };
+
+  const handleUploadThumbnail = async (e) => {
+    const image = e.target.files[0];
+    if (!image) {
+      return;
+    }
+
+    await uploadImage(image)
+      .then((data) => {
+        const { image } = data;
+        setPostData(() => ({
+          ...postData,
+          thumbnail: image,
+        }));
+      })
+      .catch(() => {
+        thumbnail.current.value = null;
+      });
   };
 
   // 유효성 검사
@@ -51,10 +79,12 @@ function MakePostPage() {
     setHelperText(null);
   }, [postData]);
 
-  const handleSubmitButton = (e) => {
+  const handleSubmitButton = async (e) => {
     e.preventDefault();
 
-    console.log(`title=${postData.title}, contents=${postData.contents}`);
+    await createPost(postData)
+      .then(() => navigate(PATH.MAIN))
+      .catch(() => console.log('게시글 업로드 실패'));
   };
 
   return (
@@ -64,7 +94,9 @@ function MakePostPage() {
       </StyledTitle>
       <PostForm
         onChange={handleChangeValue}
+        onUploadThumbnail={handleUploadThumbnail}
         onSubmitButton={handleSubmitButton}
+        thumbnail={thumbnail}
         helperText={helperText}
         isDisabled={isDisabled}
       />

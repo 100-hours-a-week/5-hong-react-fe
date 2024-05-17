@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Input from '@/components/Input';
 import Button from '@/components/Button';
 import VALIDATE_MESSAGES from '@/constants/validateMessages.js';
 import REGEX from '@/constants/regex.js';
+import PATH from '@/constants/path.js';
+
+import { updatePassword } from '@/apis/user.js';
 
 function PasswordForm() {
   const [password, setPassword] = useState(null);
@@ -15,6 +19,7 @@ function PasswordForm() {
   const [passwordConfirmHelperText, setPasswordConfirmHelperText] = useState(
     VALIDATE_MESSAGES.PASSWORD_CONFIRM.REQUIRED,
   );
+  const navigate = useNavigate();
 
   // 비밀번호 유효성 검사 이벤트
   const handleChangePassword = (e) => {
@@ -67,12 +72,16 @@ function PasswordForm() {
   // 버튼 이벤트
   const isSubmitDisabled = !!passwordHelperText || !!passwordConfirmHelperText;
 
-  const handleSubmitButton = (e) => {
+  const handleSubmitButton = async (e) => {
     e.preventDefault();
 
     console.log('누름');
     console.log('password =', password);
     console.log('password confirm =', passwordConfirm);
+
+    await updatePassword({ password })
+      .then(() => navigate(PATH.MAIN))
+      .catch(() => console.log('비밀번호 업데이트 실패'));
   };
 
   return (

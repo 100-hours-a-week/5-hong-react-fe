@@ -1,47 +1,56 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import PATH from '@/constants/path.js';
-import defaultProfileImage from '@/assets/images/defaultProfileImage.svg';
 
-function ProfileNav() {
-  // TODO: 로그인 ? 개인 프로필 : 기본 사진
+import { logoutUser } from '@/apis/user.js';
 
+ProfileNav.propTypes = {
+  isLogin: PropTypes.bool,
+  loginUser: PropTypes.object,
+};
+
+// TODO: 로그인 ? 개인 프로필 : 기본 사진
+function ProfileNav({ isLogin, loginUser }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate();
 
   const handleGoUpdateProfile = () => {
-    console.log('TODO: 프로필 수정');
     navigate(PATH.EDIT_PROFILE);
   };
 
   const handleGoEditPassword = () => {
-    console.log('TODO: 비밀번호 수정');
     navigate(PATH.EDIT_PASSWORD);
   };
 
-  const handleLogout = () => {
-    console.log('TODO: 로그아웃');
-    navigate(PATH.LOGIN);
+  const handleLogout = async () => {
+    await logoutUser()
+      .then(() => navigate(PATH.LOGIN))
+      .catch(() => console.log('로그아웃 실패'));
   };
 
   return (
     <ProfileContainer
       onMouseOver={() => setIsOpen(true)}
       onMouseOut={() => setIsOpen(false)}>
-      <ProfileImage src={defaultProfileImage} />
-      {isOpen && (
-        <DropdownContainer>
-          <DropdownOption onClick={handleGoUpdateProfile}>
-            회원정보 수정
-          </DropdownOption>
-          <DropdownOption onClick={handleGoEditPassword}>
-            비밀번호 변경
-          </DropdownOption>
-          <DropdownOption onClick={handleLogout}>로그아웃</DropdownOption>
-        </DropdownContainer>
+      {isLogin && (
+        <>
+          <ProfileImage src={loginUser.profileImage} alt={'AVATAR'} />
+          {isOpen && (
+            <DropdownContainer>
+              <DropdownOption onClick={handleGoUpdateProfile}>
+                회원정보 수정
+              </DropdownOption>
+              <DropdownOption onClick={handleGoEditPassword}>
+                비밀번호 변경
+              </DropdownOption>
+              <DropdownOption onClick={handleLogout}>로그아웃</DropdownOption>
+            </DropdownContainer>
+          )}
+        </>
       )}
     </ProfileContainer>
   );
@@ -58,7 +67,7 @@ const ProfileImage = styled.img`
   width: 36px;
   height: 36px;
 
-  border: 2px solid black;
+  border: 1px solid black;
   border-radius: 50%;
 `;
 

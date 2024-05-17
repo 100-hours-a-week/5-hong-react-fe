@@ -1,19 +1,18 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import CommentForm from '@/components/CommentForm';
 import CommentBox from '@/components/CommentBox';
 
-// mock
-import loginUser from '@/mocks/loginUser.js';
-
-CommentsList.propTypes = {
+CommentList.propTypes = {
   comments: PropTypes.array,
+  loginUser: PropTypes.object,
+  setCommentList: PropTypes.func,
 };
 
 // FIXME: 현재 CommentBox 내에서 수정 버튼 누르면 전체가 재랜더링되는 문제
-function CommentsList({ comments }) {
+function CommentList({ comments, loginUser, setCommentList }) {
   console.debug('CommentList() - rendering');
 
   const [isEditing, setIsEditing] = useState(false);
@@ -22,14 +21,13 @@ function CommentsList({ comments }) {
     contents: null,
   });
 
-  const handleEditComment = (commentId, contents) => {
+  const handleEditComment = useCallback((commentId, contents) => {
     setIsEditing(true);
     setCurrentComment({
       commentId,
       contents,
     });
-    console.log(`Edited comment: ID=${commentId}, contents=${contents}`);
-  };
+  }, []);
 
   return (
     <CommentContainer>
@@ -37,6 +35,9 @@ function CommentsList({ comments }) {
         isEditing={isEditing}
         setIsEditing={setIsEditing}
         currentComment={currentComment}
+        setCurrentComment={setCurrentComment}
+        comments={comments}
+        setCommentList={setCommentList}
       />
 
       <ul>
@@ -58,7 +59,7 @@ function CommentsList({ comments }) {
   );
 }
 
-export default CommentsList;
+export default CommentList;
 
 const CommentContainer = styled.div`
   display: flex;

@@ -5,20 +5,19 @@ import S from '@/styles/common.jsx';
 import PostInfoBox from '@/components/PostBox/PostInfoBox.jsx';
 import PostBodyBox from '@/components/PostBox/PostBodyBox.jsx';
 
-// mock
-import loginUser from '@/mocks/loginUser.js';
-
 PostBox.propTypes = {
   post: PropTypes.object,
+  loginUser: PropTypes.object,
 };
 
-function PostBox({ post }) {
+function PostBox({ post, loginUser }) {
   console.debug('PostBox() - rendering');
 
   return (
     <>
       <PostInfoBoxContainer>
         <PostInfoBox
+          postsId={post.postsId}
           title={post.title}
           createdAt={post.createdAt}
           author={post.owner}

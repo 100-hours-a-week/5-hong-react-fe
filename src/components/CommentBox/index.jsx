@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import S from '@/styles/common.jsx';
 import Modal from '@/components/Modal';
 
+import { deleteComment } from '@/apis/comment.js';
+
 CommentBox.propTypes = {
   id: PropTypes.number,
   contents: PropTypes.string,
@@ -36,10 +38,15 @@ function CommentBox({
     document.body.style.overflow = 'auto'; // 스크롤 이벤트 복구
   }, []);
 
-  const handleConfirm = (e) => {
+  const handleDeleteButton = async (e) => {
     e.preventDefault();
 
-    console.log(`댓글 ${id} 삭제 요청`);
+    await deleteComment(id)
+      .then(() => {
+        console.log('삭제 성공');
+        handleCloseModal();
+      })
+      .catch(() => console.log('댓글 삭제 실패'));
   };
 
   return (
@@ -73,7 +80,7 @@ function CommentBox({
           title={'댓글을 삭제하시겠습니까?'}
           contents={'삭제한 내용은 복구 할 수 없습니다.'}
           handleClose={handleCloseModal}
-          handleConfirm={handleConfirm}
+          handleConfirm={handleDeleteButton}
         />
       )}
     </>

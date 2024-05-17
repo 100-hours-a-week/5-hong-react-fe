@@ -1,19 +1,61 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Button from '@/components/Button';
 import PostList from '@/components/PostList';
 
-// mock
-import postList from '@/mocks/postList.js';
+import { getPostList } from '@/apis/post.js';
 
+// TODO: 게시글 무한 스크롤 구현
+// TODO: 무한 스크롤 시 스켈레톤 보여주기 (?)
+// TODO: 서버 상태 관리 추가 (Redux vs TanStack query ?)
 function MainPage() {
-  // TODO: 게시글 무한 스크롤 구현
-  // TODO: 무한 스크롤 시 스켈레톤 보여주기 (?)
-  // TODO: 서버 상태 관리 추가 (Redux vs TanStack query ?)
+  const [postList, setPostList] = useState([]);
+  const [hasNext, setHasNext] = useState(true);
+  const [page, setPage] = useState(1);
+  const endElement = useRef(null);
 
-  // 임시용
   const navigate = useNavigate();
+
+  const fetchPostList = useCallback(async () => {
+    console.log(`현재 요청 페이지 = ${page}`);
+
+    const { hasNext, nextPage, data } = await getPostList(page);
+    console.log(data);
+
+    setHasNext(hasNext);
+    setPage(nextPage);
+    console.log(`다음 요청 페이지 = ${nextPage}`);
+
+    setPostList((prev) => prev.concat(data));
+  }, [page]);
+
+  const onIntersection = useCallback(
+    async (entries) => {
+      const firstEntry = entries[0];
+
+      if (firstEntry.isIntersecting && hasNext) {
+        await fetchPostList();
+      }
+    },
+    [hasNext, fetchPostList],
+  );
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(onIntersection);
+
+    const currentElement = endElement.current;
+    if (currentElement) {
+      observer.observe(currentElement);
+    }
+
+    return () => {
+      if (currentElement) {
+        observer.unobserve(currentElement);
+      }
+    };
+  }, [onIntersection]);
 
   const handleCreatePost = () => {
     const location = '/posts/make';
@@ -36,6 +78,7 @@ function MainPage() {
         />
       </FormContainer>
       <PostList posts={postList} />
+      {hasNext && <div ref={endElement}>로딩중...</div>}
     </StyledPreviewArticle>
   );
 }
