@@ -1,4 +1,3 @@
-import { useCallback, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -6,6 +5,7 @@ import PropTypes from 'prop-types';
 import S from '@/styles/common.jsx';
 import Modal from '@/components/Modal';
 import PATH from '@/constants/path.js';
+import useModal from '@/hooks/useModal.js';
 
 import { deletePost } from '@/apis/post.js';
 
@@ -21,19 +21,7 @@ PostInfoBox.propTypes = {
 function PostInfoBox({ postsId, title, createdAt, author, loginUser }) {
   const location = useLocation();
   const navigate = useNavigate();
-
-  // Modal state
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleOpenModal = useCallback(() => {
-    setIsOpen(true);
-    document.body.style.overflow = 'hidden'; // 스크롤 이벤트 방지
-  }, []);
-
-  const handleCloseModal = useCallback(() => {
-    setIsOpen(false);
-    document.body.style.overflow = 'auto'; // 스크롤 이벤트 방지
-  }, []);
+  const { isOpen, closeModal, openModal } = useModal();
 
   const handleDeletePostButton = async (e) => {
     e.preventDefault();
@@ -73,7 +61,7 @@ function PostInfoBox({ postsId, title, createdAt, author, loginUser }) {
           {author.memberId === loginUser.memberId && (
             <>
               <StyledButton onClick={handleEditPost}>수정</StyledButton>
-              <StyledButton onClick={handleOpenModal}>삭제</StyledButton>
+              <StyledButton onClick={openModal}>삭제</StyledButton>
             </>
           )}
         </ButtonContainer>
@@ -84,8 +72,8 @@ function PostInfoBox({ postsId, title, createdAt, author, loginUser }) {
         <Modal
           title={'게시글을 삭제하시겠습니까?'}
           contents={'삭제한 내용은 복구 할 수 없습니다.'}
-          handleClose={handleCloseModal}
-          handleConfirm={handleDeletePostButton}
+          onClose={closeModal}
+          onConfirm={handleDeletePostButton}
         />
       )}
     </>

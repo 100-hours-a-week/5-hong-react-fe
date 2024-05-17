@@ -10,6 +10,7 @@ import Modal from '@/components/Modal';
 import VALIDATE_MESSAGES from '@/constants/validateMessages.js';
 import REGEX from '@/constants/regex.js';
 import PATH from '@/constants/path.js';
+import useModal from '@/hooks/useModal.js';
 
 import { uploadImage } from '@/apis/image.js';
 import {
@@ -21,6 +22,8 @@ import {
 
 function ProfileForm() {
   console.debug('ProfileForm() - rendering');
+
+  const { isOpen, openModal, closeModal } = useModal();
 
   const [loginUser, setLoginUser] = useState({});
   const [image, setImage] = useState(null);
@@ -79,19 +82,6 @@ function ProfileForm() {
         setIsDisabled(true);
       });
   };
-
-  // Modal state
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleOpenModal = useCallback(() => {
-    setIsOpen(true);
-    document.body.style.overflow = 'hidden'; // 스크롤 이벤트 방지
-  }, []);
-
-  const handleCloseModal = useCallback(() => {
-    setIsOpen(false);
-    document.body.style.overflow = 'auto'; // 스크롤 이벤트 방지
-  }, []);
 
   const handleWithdrawButton = async (e) => {
     e.preventDefault();
@@ -180,7 +170,7 @@ function ProfileForm() {
             disabled={isDisabled}
             onClick={handleUpdateButton}
           />
-          <StyledButton type={'button'} onClick={handleOpenModal}>
+          <StyledButton type={'button'} onClick={openModal}>
             회원 탈퇴
           </StyledButton>
         </div>
@@ -201,8 +191,8 @@ function ProfileForm() {
         <Modal
           title={'회원탈퇴를 하시겠습니까?'}
           contents={'작성하신 게시글과 댓글은 삭제됩니다.'}
-          handleClose={handleCloseModal}
-          handleConfirm={handleWithdrawButton}
+          onClose={closeModal}
+          onConfirm={handleWithdrawButton}
         />
       )}
     </>
