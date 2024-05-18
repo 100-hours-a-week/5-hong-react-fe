@@ -1,7 +1,7 @@
 const commentList = [
   {
-    commentsId: 6,
-    postsId: 10,
+    commentId: 6,
+    postId: 10,
     contents: '내용내용1',
     createdAt: '2024-01-01 12:34:56',
     owner: {
@@ -11,8 +11,8 @@ const commentList = [
     },
   },
   {
-    commentsId: 5,
-    postsId: 10,
+    commentId: 5,
+    postId: 10,
     contents: '내용내용1',
     createdAt: '2024-01-01 12:34:56',
     owner: {
@@ -22,8 +22,8 @@ const commentList = [
     },
   },
   {
-    commentsId: 4,
-    postsId: 10,
+    commentId: 4,
+    postId: 10,
     contents: '내용내용1',
     createdAt: '2024-01-01 12:34:56',
     owner: {
@@ -33,8 +33,8 @@ const commentList = [
     },
   },
   {
-    commentsId: 3,
-    postsId: 10,
+    commentId: 3,
+    postId: 10,
     contents: '내용내용1',
     createdAt: '2024-01-01 12:34:56',
     owner: {
@@ -44,8 +44,8 @@ const commentList = [
     },
   },
   {
-    commentsId: 2,
-    postsId: 10,
+    commentId: 2,
+    postId: 10,
     contents: '내용내용2',
     createdAt: '2024-01-01 12:34:56',
     owner: {
@@ -55,8 +55,8 @@ const commentList = [
     },
   },
   {
-    commentsId: 1,
-    postsId: 10,
+    commentId: 1,
+    postId: 10,
     contents: '내용내용3',
     createdAt: '2024-01-01 12:34:56',
     owner: {

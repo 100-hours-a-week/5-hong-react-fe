@@ -5,9 +5,9 @@ const PATH = {
   LOGIN: '/login',
   SIGN_UP: '/signup',
   MAIN: '/',
-  POSTS: '/posts/:postsId',
+  POSTS: '/posts/:postId',
   MAKE_POSTS: '/posts/make',
-  EDIT_POSTS: '/posts/:postsId/edit',
+  EDIT_POSTS: '/posts/:postId/edit',
   EDIT_PROFILE: '/users/edit/profile',
   EDIT_PASSWORD: '/users/edit/password',
 };
