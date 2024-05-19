@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 import PATH from '@/constants/path.js';
-
+import ProfileImage from '@/components/ProfileImage';
+import useAuth from '@/hooks/useAuth.js';
+import useToast from '@/hooks/useToast.js';
 import { logoutUser } from '@/apis/user.js';
 
 ProfileNav.propTypes = {
@@ -12,11 +15,11 @@ ProfileNav.propTypes = {
   loginUser: PropTypes.object,
 };
 
-// TODO: 로그인 ? 개인 프로필 : 기본 사진
-function ProfileNav({ isLogin, loginUser }) {
-  const [isOpen, setIsOpen] = useState(false);
-
+function ProfileNav() {
+  const createToast = useToast();
   const navigate = useNavigate();
+  const { userInfo, reload } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleGoUpdateProfile = () => {
     navigate(PATH.EDIT_PROFILE);
@@ -28,17 +31,22 @@ function ProfileNav({ isLogin, loginUser }) {
 
   const handleLogout = async () => {
     await logoutUser()
-      .then(() => navigate(PATH.LOGIN))
-      .catch(() => console.log('로그아웃 실패'));
+      .then(() => {
+        navigate(PATH.LOGIN);
+        setIsOpen(false);
+        createToast({ message: '로그아웃 완료' });
+        reload();
+      })
+      .catch(() => createToast({ message: '로그아웃 실패' }));
   };
 
   return (
     <ProfileContainer
       onMouseOver={() => setIsOpen(true)}
       onMouseOut={() => setIsOpen(false)}>
-      {isLogin && (
+      {userInfo && (
         <>
-          <ProfileImage src={loginUser.profileImage} alt={'AVATAR'} />
+          <ProfileImage src={userInfo.profileImage} alt={'AVATAR'} />
           {isOpen && (
             <DropdownContainer>
               <DropdownOption onClick={handleGoUpdateProfile}>
@@ -61,14 +69,6 @@ export default ProfileNav;
 const ProfileContainer = styled.div`
   width: 40px;
   height: 40px;
-`;
-
-const ProfileImage = styled.img`
-  width: 36px;
-  height: 36px;
-
-  border: 1px solid black;
-  border-radius: 50%;
 `;
 
 const DropdownContainer = styled.ul`
