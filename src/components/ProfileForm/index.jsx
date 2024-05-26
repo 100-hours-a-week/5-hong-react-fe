@@ -1,132 +1,63 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 import S from '@/styles/common.jsx';
+import PATH from '@/constants/path.js';
+import Modal from '@/components/Modal';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
 import ImageInput from '@/components/ImageInput';
-import Modal from '@/components/Modal';
-import VALIDATE_MESSAGES from '@/constants/validateMessages.js';
-import REGEX from '@/constants/regex.js';
-import PATH from '@/constants/path.js';
+import formValidate from '@/components/ProfileForm/formValidate.js';
+import useForm from '@/hooks/useForm.js';
+import useAuth from '@/hooks/useAuth.js';
+import useToast from '@/hooks/useToast.js';
 import useModal from '@/hooks/useModal.js';
-
-import { uploadImage } from '@/apis/image.js';
-import {
-  getUserInfo,
-  updateProfile,
-  validateNickname,
-  withdrawUser,
-} from '@/apis/user.js';
+import useUploadImage from '@/hooks/useUploadImage.js';
+import { updateProfile, withdrawUser } from '@/apis/user.js';
 
 function ProfileForm() {
   console.debug('ProfileForm() - rendering');
 
+  const createToast = useToast();
+  const { userInfo, reload } = useAuth();
   const { isOpen, openModal, closeModal } = useModal();
-
-  const [loginUser, setLoginUser] = useState({});
-  const [image, setImage] = useState(null);
-  const [defaultImage, setDefaultImage] = useState(null);
-  const [isDisabled, setIsDisabled] = useState(true);
-  const [nickname, setNickname] = useState(null);
-  const [helperText, setHelperText] = useState(
-    VALIDATE_MESSAGES.NICKNAME.REQUIRED,
+  const { image, handleOnUpload } = useUploadImage(userInfo.profileImage);
+  const { values, errors, isLoading, handleOnChange, handleOnSubmit } = useForm(
+    {
+      initialValues: { nickname: '' },
+      onSubmit: () => updateRequest({ ...values, profileImage: image }),
+      validateFn: (formValue) => formValidate(formValue),
+    },
   );
+
   const navigate = useNavigate();
-
-  const fetchLoginInfo = useCallback(async () => {
-    await getUserInfo().then((response) => {
-      setLoginUser({
-        ...response,
-      });
-      setImage(response.profileImage);
-      setDefaultImage(response.profileImage);
-    });
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      await fetchLoginInfo();
-    })();
-  }, [fetchLoginInfo]);
-
-  // 닉네임 유효성 검사 이벤트
-  const handleChangeNickname = async (e) => {
-    const value = e.target.value;
-
-    if (value.trim().length === 0) {
-      setHelperText(VALIDATE_MESSAGES.NICKNAME.REQUIRED);
-      setNickname(null);
-      setIsDisabled(true);
-      return;
-    }
-
-    if (!REGEX.NICKNAME.test(value)) {
-      setHelperText(VALIDATE_MESSAGES.NICKNAME.INVALID);
-      setNickname(null);
-      setIsDisabled(true);
-      return;
-    }
-
-    const nickname = value;
-    await validateNickname({ nickname })
-      .then(() => {
-        setHelperText(null);
-        setNickname(nickname);
-        setIsDisabled(false);
-      })
-      .catch(() => {
-        setHelperText('*중복된 닉네임입니다.');
-        setNickname(null);
-        setIsDisabled(true);
-      });
-  };
 
   const handleWithdrawButton = async (e) => {
     e.preventDefault();
 
     await withdrawUser()
-      .then(() => navigate(PATH.LOGIN))
-      .catch(() => console.log('회원탈퇴실패'));
-  };
-
-  useEffect(() => {
-    setImage(loginUser.profileImage);
-  }, []);
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) {
-      setImage(defaultImage);
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = async () => {
-      await uploadImage(file)
-        .then((data) => {
-          const { image } = data;
-          setImage(image);
-        })
-        .catch(() => console.log('이미지 업로드 실패'));
-    };
-  };
-
-  const handleUpdateButton = async (e) => {
-    e.preventDefault();
-
-    await updateProfile({ nickname, image })
       .then(() => {
+        navigate(PATH.LOGIN);
+        createToast({ message: '회원탈퇴 완료' });
+      })
+      .catch(() => createToast({ message: '회원탈퇴 실패' }));
+  };
+
+  const updateRequest = async (userInfo) => {
+    await updateProfile(userInfo)
+      .then(() => {
+        reload();
         navigate(PATH.MAIN);
       })
-      .catch(() => console.log('업데이트 실패'));
+      .catch(() => createToast({ message: '프로필 업로드 실패' }));
   };
 
   const handleGoMain = () => {
-    navigate('/');
+    navigate(PATH.MAIN);
   };
+
+  // 버튼 disabled
+  const isSubmitDisabled = Object.keys(errors).length > 0 || isLoading;
 
   return (
     <>
@@ -135,7 +66,7 @@ function ProfileForm() {
           <ImageInput
             id={'file'}
             type={'file'}
-            onChange={handleImageUpload}
+            onChange={handleOnUpload}
             image={image}
             label={'프로필 사진*'}
             width={'95px'}
@@ -149,16 +80,17 @@ function ProfileForm() {
           <StyledSubTitle>
             <S.Highlight>이메일</S.Highlight>
           </StyledSubTitle>
-          <StyledSubTitle>{loginUser.email}</StyledSubTitle>
+          <StyledSubTitle>{userInfo.email}</StyledSubTitle>
         </div>
 
         <div>
           <Input
             id={'nickname'}
             type={'text'}
+            name={'nickname'}
             label={'닉네임'}
-            helperText={helperText}
-            onChange={handleChangeNickname}
+            helperText={errors.nickname}
+            onChange={handleOnChange}
           />
         </div>
 
@@ -167,8 +99,8 @@ function ProfileForm() {
             width={'100%'}
             text={'수정하기'}
             type={'submit'}
-            disabled={isDisabled}
-            onClick={handleUpdateButton}
+            disabled={isSubmitDisabled}
+            onClick={handleOnSubmit}
           />
           <StyledButton type={'button'} onClick={openModal}>
             회원 탈퇴
@@ -186,7 +118,6 @@ function ProfileForm() {
         </div>
       </StyledForm>
 
-      {/*TODO: 추후 전역 hooks 로 관리 (리팩토링)*/}
       {isOpen && (
         <Modal
           title={'회원탈퇴를 하시겠습니까?'}
