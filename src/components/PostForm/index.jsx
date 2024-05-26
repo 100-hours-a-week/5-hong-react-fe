@@ -3,28 +3,32 @@ import PropTypes from 'prop-types';
 
 import S from '@/styles/common.jsx';
 import Button from '@/components/Button';
+import formValidate from '@/components/PostForm/formValidate.js';
+import useForm from '@/hooks/useForm.js';
+import useUploadImage from '@/hooks/useUploadImage.js';
 
 PostForm.propTypes = {
-  post: PropTypes.object,
-  onChange: PropTypes.func,
-  onUploadThumbnail: PropTypes.func,
-  onSubmitButton: PropTypes.func,
-  thumbnail: PropTypes.object,
-  helperText: PropTypes.string,
-  isDisabled: PropTypes.bool,
+  data: PropTypes.object,
+  onSubmit: PropTypes.func,
 };
 
-// TODO: button, input(text, textarea) 수정후 리팩토링
-function PostForm({
-  post,
-  onChange,
-  onUploadThumbnail,
-  onSubmitButton,
-  thumbnail,
-  helperText,
-  isDisabled,
-}) {
+function PostForm({ data, onSubmit }) {
   console.debug('PostForm() - rendering');
+
+  const initialValues = data
+    ? data
+    : { title: '', contents: '', thumbnail: '' };
+
+  const { image, handleOnUpload } = useUploadImage(null);
+  const { values, errors, isLoading, handleOnChange, handleOnSubmit } = useForm(
+    {
+      initialValues,
+      onSubmit: () => onSubmit({ ...values, thumbnail: image }),
+      validateFn: formValidate,
+    },
+  );
+
+  const isSubmitDisabled = Object.keys(errors).length > 0 || isLoading;
 
   return (
     <StyledForm>
@@ -36,9 +40,9 @@ function PostForm({
         id={'title'}
         type={'text'}
         name={'title'}
-        defaultValue={post ? post.title : null}
+        defaultValue={data ? data.title : null}
         placeholder={'제목을 입력해주세요. (최대 26글자)'}
-        onChange={onChange}
+        onChange={handleOnChange}
       />
 
       <S.Hr />
@@ -50,20 +54,20 @@ function PostForm({
       <StyledTextarea
         name={'contents'}
         placeholder={'내용을 입력해주세요!'}
-        defaultValue={post ? post.contents : null}
-        onInput={onChange}
+        defaultValue={data ? data.contents : null}
+        onInput={handleOnChange}
       />
 
       <S.Hr />
 
-      <HelperText>{helperText}</HelperText>
+      <HelperText>{errors.message}</HelperText>
       <StyledSubTitle>이미지</StyledSubTitle>
       <StyledFileInput
         type={'file'}
         id={'file'}
         accept={'image/*'}
-        ref={thumbnail}
-        onChange={onUploadThumbnail}
+        src={image}
+        onChange={handleOnUpload}
       />
 
       <ButtonContainer>
@@ -71,8 +75,8 @@ function PostForm({
           width={'350px'}
           text={'완료'}
           type={'submit'}
-          onClick={onSubmitButton}
-          disabled={isDisabled}
+          onClick={handleOnSubmit}
+          disabled={isSubmitDisabled}
         />
       </ButtonContainer>
     </StyledForm>
