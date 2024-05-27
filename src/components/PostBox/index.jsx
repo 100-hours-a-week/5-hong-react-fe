@@ -6,22 +6,20 @@ import PostInfoBox from '@/components/PostBox/PostInfoBox.jsx';
 import PostBodyBox from '@/components/PostBox/PostBodyBox.jsx';
 
 PostBox.propTypes = {
-  post: PropTypes.object,
-  loginUser: PropTypes.object,
+  data: PropTypes.object,
 };
 
-function PostBox({ post, loginUser }) {
+function PostBox({ data }) {
   console.debug('PostBox() - rendering');
 
   return (
     <>
       <PostInfoBoxContainer>
         <PostInfoBox
-          postsId={post.postsId}
-          title={post.title}
-          createdAt={post.createdAt}
-          author={post.owner}
-          loginUser={loginUser}
+          postId={data.postId}
+          title={data.title}
+          createdAt={data.createdAt}
+          author={data.owner}
         />
       </PostInfoBoxContainer>
 
@@ -29,10 +27,10 @@ function PostBox({ post, loginUser }) {
 
       <PostBodyBoxContainer>
         <PostBodyBox
-          thumbnail={post.thumbnail}
-          contents={post.contents}
-          hitsCount={post.hitsCount}
-          commentsCount={post.commentsCount}
+          thumbnail={data.thumbnail}
+          contents={data.contents}
+          hitCount={data.hitCount}
+          commentCount={data.commentCount}
         />
       </PostBodyBoxContainer>
     </>
