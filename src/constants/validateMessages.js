@@ -6,6 +6,7 @@ const VALIDATE_MESSAGES = {
     REQUIRED: '*이메일을 작성해주세요.',
     INVALID:
       '*올바른 이메일 주소 형식을 입력해주세요. (예:example@example.com)',
+    DUPLICATE: '*중복된 이메일입니다.',
   },
   PASSWORD: {
     REQUIRED: '*비밀번호를 입력해주세요.',
@@ -19,6 +20,7 @@ const VALIDATE_MESSAGES = {
   NICKNAME: {
     REQUIRED: '*닉네임을 입력해주세요.',
     INVALID: '*닉네임은 띄어쓰기 없이 최대 10자까지 작성 가능합니다.',
+    DUPLICATE: '*중복된 닉네임입니다.',
   },
   POSTS: {
     REQUIRED: '*제목과 내용을 모두 입력해주세요.',

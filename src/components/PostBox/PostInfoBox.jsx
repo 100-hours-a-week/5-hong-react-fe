@@ -1,54 +1,46 @@
-import { useCallback, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import S from '@/styles/common.jsx';
-import Modal from '@/components/Modal';
 import PATH from '@/constants/path.js';
-
+import Modal from '@/components/Modal';
+import ProfileImage from '@/components/ProfileImage';
+import useAuth from '@/hooks/useAuth.js';
+import useModal from '@/hooks/useModal.js';
+import useToast from '@/hooks/useToast.js';
 import { deletePost } from '@/apis/post.js';
 
 PostInfoBox.propTypes = {
-  postsId: PropTypes.number,
+  postId: PropTypes.number,
   title: PropTypes.string,
   createdAt: PropTypes.string,
   author: PropTypes.object,
-  loginUser: PropTypes.object,
 };
 
-// TODO: 컴포넌트 분리, (프로필 이미지 나눠야할 듯 -> 현재 중복 4번 이상)
-function PostInfoBox({ postsId, title, createdAt, author, loginUser }) {
+function PostInfoBox({ postId, title, createdAt, author }) {
+  const createToast = useToast();
   const location = useLocation();
   const navigate = useNavigate();
-
-  // Modal state
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleOpenModal = useCallback(() => {
-    setIsOpen(true);
-    document.body.style.overflow = 'hidden'; // 스크롤 이벤트 방지
-  }, []);
-
-  const handleCloseModal = useCallback(() => {
-    setIsOpen(false);
-    document.body.style.overflow = 'auto'; // 스크롤 이벤트 방지
-  }, []);
+  const { userInfo } = useAuth();
+  const { isOpen, closeModal, openModal } = useModal();
 
   const handleDeletePostButton = async (e) => {
     e.preventDefault();
 
-    await deletePost(postsId)
-      .then(() => navigate(PATH.MAIN))
-      .catch(() => console.log('게시글 삭제 실패'));
+    await deletePost(postId)
+      .then(() => {
+        navigate(PATH.MAIN);
+        createToast({ message: '게시글 삭제 완료' });
+      })
+      .catch(() => createToast({ message: '게시글 삭제 실패' }));
   };
 
   const handleEditPost = (e) => {
     e.preventDefault();
 
-    const pathname = location.pathname;
-    console.log(pathname);
-    navigate(`${pathname}/edit`);
+    const pathname = `${location.pathname}/edit`;
+    navigate(pathname);
   };
 
   return (
@@ -60,7 +52,7 @@ function PostInfoBox({ postsId, title, createdAt, author, loginUser }) {
       <PostDetailContainer>
         <PostInfoContainer>
           <OwnerInfoContainer>
-            <StyledImage src={author.profileImage} alt={'PROFILE_IMAGE'} />
+            <ProfileImage src={author.profileImage} alt={'AVATAR'} />
             <S.Highlight>{author.nickname}</S.Highlight>
           </OwnerInfoContainer>
 
@@ -70,22 +62,21 @@ function PostInfoBox({ postsId, title, createdAt, author, loginUser }) {
         </PostInfoContainer>
 
         <ButtonContainer>
-          {author.memberId === loginUser.memberId && (
+          {userInfo && author.memberId === userInfo.memberId && (
             <>
               <StyledButton onClick={handleEditPost}>수정</StyledButton>
-              <StyledButton onClick={handleOpenModal}>삭제</StyledButton>
+              <StyledButton onClick={openModal}>삭제</StyledButton>
             </>
           )}
         </ButtonContainer>
       </PostDetailContainer>
 
-      {/*TODO: 추후 전역 hooks 로 관리 (리팩토링)*/}
       {isOpen && (
         <Modal
           title={'게시글을 삭제하시겠습니까?'}
           contents={'삭제한 내용은 복구 할 수 없습니다.'}
-          handleClose={handleCloseModal}
-          handleConfirm={handleDeletePostButton}
+          onClose={closeModal}
+          onConfirm={handleDeletePostButton}
         />
       )}
     </>
@@ -123,14 +114,6 @@ const OwnerInfoContainer = styled.div`
   justify-content: space-around;
   align-items: center;
   gap: 10px;
-`;
-
-const StyledImage = styled.img`
-  width: 36px;
-  height: 36px;
-
-  border: 1px solid gray;
-  border-radius: 50%;
 `;
 
 const ButtonContainer = styled.div`

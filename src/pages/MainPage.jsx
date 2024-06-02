@@ -1,66 +1,23 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useCallback } from 'react';
+
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 import Button from '@/components/Button';
 import PostList from '@/components/PostList';
-
+import useInfiniteScroll from '@/hooks/useInfiniteScroll.js';
 import { getPostList } from '@/apis/post.js';
+import PATH from '@/constants/path.js';
 
-// TODO: 게시글 무한 스크롤 구현
-// TODO: 무한 스크롤 시 스켈레톤 보여주기 (?)
-// TODO: 서버 상태 관리 추가 (Redux vs TanStack query ?)
 function MainPage() {
-  const [postList, setPostList] = useState([]);
-  const [hasNext, setHasNext] = useState(true);
-  const [page, setPage] = useState(1);
-  const endElement = useRef(null);
+  console.debug('MainPage() - rendering');
 
   const navigate = useNavigate();
 
-  const fetchPostList = useCallback(async () => {
-    console.log(`현재 요청 페이지 = ${page}`);
-
-    const { hasNext, nextPage, data } = await getPostList(page);
-    console.log(data);
-
-    setHasNext(hasNext);
-    setPage(nextPage);
-    console.log(`다음 요청 페이지 = ${nextPage}`);
-
-    setPostList((prev) => prev.concat(data));
-  }, [page]);
-
-  const onIntersection = useCallback(
-    async (entries) => {
-      const firstEntry = entries[0];
-
-      if (firstEntry.isIntersecting && hasNext) {
-        await fetchPostList();
-      }
-    },
-    [hasNext, fetchPostList],
-  );
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(onIntersection);
-
-    const currentElement = endElement.current;
-    if (currentElement) {
-      observer.observe(currentElement);
-    }
-
-    return () => {
-      if (currentElement) {
-        observer.unobserve(currentElement);
-      }
-    };
-  }, [onIntersection]);
-
-  const handleCreatePost = () => {
-    const location = '/posts/make';
-    navigate(location);
-  };
+  const { dataList, hasNext, endElement } = useInfiniteScroll({
+    fetchFn: useCallback(async (cursor) => await getPostList(cursor), []),
+    message: '마지막 게시글입니다.',
+  });
 
   return (
     <StyledPreviewArticle>
@@ -73,11 +30,11 @@ function MainPage() {
           width={'138px'}
           text={'게시글 작성'}
           type={'submit'}
-          onClick={handleCreatePost}
+          onClick={() => navigate(PATH.MAKE_POSTS)}
           $radius={'20px'}
         />
       </FormContainer>
-      <PostList posts={postList} />
+      <PostList data={dataList} />
       {hasNext && <div ref={endElement}>로딩중...</div>}
     </StyledPreviewArticle>
   );

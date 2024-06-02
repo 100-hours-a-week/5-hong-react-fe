@@ -1,185 +1,44 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
-import ImageInput from '@/components/ImageInput';
+import PATH from '@/constants/path.js';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
-import PATH from '@/constants/path.js';
-import REGEX from '@/constants/regex.js';
-import VALIDATE_MESSAGES from '@/constants/validateMessages.js';
+import ImageInput from '@/components/ImageInput';
+import formValidate from '@/components/SignUpForm/formValidate.js';
+import useForm from '@/hooks/useForm.js';
+import useToast from '@/hooks/useToast.js';
+import useUploadImage from '@/hooks/useUploadImage.js';
+import { signUpUser } from '@/apis/user.js';
 
-import { signUpUser, validateEmail, validateNickname } from '@/apis/user.js';
-import { uploadImage } from '@/apis/image.js';
-
-// TODO: 로그인 이랑 겹치는 부분 전부 hooks 이동
 function SignUpForm() {
   console.debug('SignUpForm() - rendering');
 
-  const [image, setImage] = useState(null);
-  const [imageHelperText, setImageHelperText] = useState(
-    VALIDATE_MESSAGES.PROFILE_IMAGE.REQUIRED,
-  );
-  const [email, setEmail] = useState(null);
-  const [emailHelperText, setEmailHelperText] = useState(
-    VALIDATE_MESSAGES.EMAIL.REQUIRED,
-  );
-  const [password, setPassword] = useState(null);
-  const [passwordHelperText, setPasswordHelperText] = useState(
-    VALIDATE_MESSAGES.PASSWORD.REQUIRED,
-  );
-  const [passwordConfirm, setPasswordConfirm] = useState(null);
-  const [passwordConfirmHelperText, setPasswordConfirmHelperText] = useState(
-    VALIDATE_MESSAGES.PASSWORD_CONFIRM.REQUIRED,
-  );
-  const [nickname, setNickname] = useState(null);
-  const [nicknameHelperText, setNicknameHelperText] = useState(
-    VALIDATE_MESSAGES.NICKNAME.REQUIRED,
-  );
+  const createToast = useToast();
   const navigate = useNavigate();
+  const { image, error, handleOnUpload } = useUploadImage(null);
+  const { values, errors, isLoading, handleOnChange, handleOnSubmit } = useForm(
+    {
+      initialValues: {
+        email: '',
+        password: '',
+        passwordConfirm: '',
+        nickname: '',
+      },
+      onSubmit: () => signupRequest({ ...values, profileImage: image }),
+      validateFn: (formValue) => formValidate(formValue),
+    },
+  );
 
-  // 이미지 업로드 event
-  const handleChangeProfileImage = (e) => {
-    const file = e.target.files[0];
-    if (!file) {
-      setImage(null);
-      setImageHelperText(VALIDATE_MESSAGES.PROFILE_IMAGE.REQUIRED);
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = async () => {
-      await uploadImage(file)
-        .then((data) => {
-          const { image } = data;
-          setImage(image);
-          setImageHelperText(null);
-        })
-        .catch(() => console.log('이미지 업로드 실패'));
-    };
-  };
-
-  // 이메일 유효성 검사 이벤트
-  const handleChangeEmail = async (e) => {
-    const value = e.target.value;
-
-    if (value.trim().length === 0) {
-      setEmailHelperText(VALIDATE_MESSAGES.EMAIL.REQUIRED);
-      setEmail(null);
-      return;
-    }
-
-    if (!REGEX.EMAIL.test(value)) {
-      setEmailHelperText(VALIDATE_MESSAGES.EMAIL.INVALID);
-      setEmail(null);
-      return;
-    }
-
-    const email = value;
-    await validateEmail({ email })
-      .then(() => {
-        setEmailHelperText(null);
-        setEmail(value);
-      })
-      .catch(() => {
-        setEmailHelperText('*중복된 이메일입니다.');
-        setEmail(null);
-      });
-  };
-
-  // 비밀번호 유효성 검사 이벤트
-  const handleChangePassword = (e) => {
-    const value = e.target.value;
-
-    if (value.trim().length === 0) {
-      setPasswordHelperText(VALIDATE_MESSAGES.PASSWORD.REQUIRED);
-      setPassword(null);
-      return;
-    }
-
-    if (!REGEX.PASSWORD.test(value)) {
-      setPasswordHelperText(VALIDATE_MESSAGES.PASSWORD.INVALID);
-      setPassword(null);
-      return;
-    }
-
-    setPasswordHelperText(null);
-    setPassword(value);
-  };
-
-  // 비밀번호 확인 유효성 검사 이벤트
-  const handleChangePasswordConfirm = (e) => {
-    const value = e.target.value;
-
-    if (value.trim().length === 0) {
-      setPasswordConfirmHelperText(VALIDATE_MESSAGES.PASSWORD_CONFIRM.REQUIRED);
-      setPasswordConfirm(null);
-      return;
-    }
-
-    if (value !== password) {
-      setPasswordConfirmHelperText(VALIDATE_MESSAGES.PASSWORD_CONFIRM.MISMATCH);
-      setPasswordConfirm(null);
-      return;
-    }
-
-    setPasswordConfirmHelperText(null);
-    setPasswordConfirm(value);
-  };
-
-  useEffect(() => {
-    if (passwordConfirm !== password) {
-      setPasswordConfirmHelperText(VALIDATE_MESSAGES.PASSWORD_CONFIRM.MISMATCH);
-      return;
-    }
-    setPasswordConfirmHelperText(null);
-  }, [password, passwordConfirm]);
-
-  // 닉네임 유효성 검사 이벤트
-  const handleChangeNickname = async (e) => {
-    const value = e.target.value;
-
-    if (value.trim().length === 0) {
-      setNicknameHelperText(VALIDATE_MESSAGES.NICKNAME.REQUIRED);
-      setNickname(null);
-      return;
-    }
-
-    if (!REGEX.NICKNAME.test(value)) {
-      setNicknameHelperText(VALIDATE_MESSAGES.NICKNAME.INVALID);
-      setNickname(null);
-      return;
-    }
-
-    const nickname = value;
-    await validateNickname({ nickname })
-      .then(() => {
-        setNicknameHelperText(null);
-        setNickname(nickname);
-      })
-      .catch(() => {
-        setNicknameHelperText('*중복된 닉네임입니다.');
-        setNickname(null);
-      });
+  const signupRequest = async (loginInfo) => {
+    await signUpUser(loginInfo)
+      .then(() => navigate(PATH.LOGIN))
+      .catch(() => createToast({ message: '회원가입에 실패' }));
   };
 
   // 버튼 disabled
   const isSubmitDisabled =
-    !!imageHelperText ||
-    !!emailHelperText ||
-    !!passwordHelperText ||
-    !!passwordConfirmHelperText ||
-    !!nicknameHelperText;
-
-  // 회원가입 버튼 onClick
-  const handleSubmitButton = async (e) => {
-    e.preventDefault();
-
-    await signUpUser({ email, password, nickname, image })
-      .then(() => navigate(PATH.LOGIN))
-      .catch(() => console.log('회원가입실패'));
-  };
+    Object.keys(errors).length > 0 || isLoading || !!error;
 
   return (
     <StyledForm>
@@ -187,57 +46,61 @@ function SignUpForm() {
         <ImageInput
           id={'file'}
           type={'file'}
-          onChange={handleChangeProfileImage}
+          onChange={handleOnUpload}
           image={image}
           label={'프로필 사진'}
-          helperText={imageHelperText}
+          helperText={error}
         />
       </StyledInputContainer>
       <StyledInputContainer>
         <Input
           id={'email'}
           type={'text'}
+          name={'email'}
           label={'이메일'}
           required={true}
-          onChange={handleChangeEmail}
-          helperText={emailHelperText}
+          onChange={handleOnChange}
+          helperText={errors.email}
         />
       </StyledInputContainer>
       <StyledInputContainer>
         <Input
           id={'password'}
           type={'password'}
+          name={'password'}
           label={'비밀번호'}
           required={true}
-          onChange={handleChangePassword}
-          helperText={passwordHelperText}
+          onChange={handleOnChange}
+          helperText={errors.password}
         />
       </StyledInputContainer>
       <StyledInputContainer>
         <Input
           id={'password-confirm'}
           type={'password'}
+          name={'passwordConfirm'}
           label={'비밀번호 확인'}
           required={true}
-          onChange={handleChangePasswordConfirm}
-          helperText={passwordConfirmHelperText}
+          onChange={handleOnChange}
+          helperText={errors.passwordConfirm}
         />
       </StyledInputContainer>
       <StyledInputContainer>
         <Input
           id={'nickname'}
           type={'text'}
+          name={'nickname'}
           label={'닉네임'}
           required={true}
-          onChange={handleChangeNickname}
-          helperText={nicknameHelperText}
+          onChange={handleOnChange}
+          helperText={errors.nickname}
         />
       </StyledInputContainer>
       <Button
         width={'100%'}
         text={'회원가입'}
         type={'submit'}
-        onClick={handleSubmitButton}
+        onClick={handleOnSubmit}
         disabled={isSubmitDisabled}
         $margin={'15px 0 0'}
       />

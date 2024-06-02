@@ -1,26 +1,26 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import PreviewPost from '@/components/PreviewPost';
-import PropTypes from 'prop-types';
 
 PostList.propTypes = {
-  posts: PropTypes.array,
+  data: PropTypes.array,
 };
 
-function PostList({ posts }) {
+function PostList({ data }) {
   console.debug('PostList() - rendering');
 
   // noinspection JSValidateTypes
   return (
     <Container>
-      {posts.map((post) => (
+      {data.map((post) => (
         <PreviewPost
-          key={post.postsId}
-          postsId={post.postsId}
+          key={post.postId}
+          postsId={post.postId}
           title={post.title}
-          likesCount={post.likesCount}
-          commentsCount={post.commentsCount}
-          hitsCount={post.hitsCount}
+          likeCount={post.likeCount}
+          commentCount={post.commentCount}
+          hitCount={post.hitCount}
           createdAt={post.createdAt}
           author={post.owner}
         />

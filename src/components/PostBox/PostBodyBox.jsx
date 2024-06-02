@@ -7,11 +7,11 @@ import { truncateCount } from '@/utils/truncate.js';
 PostBodyBox.propTypes = {
   thumbnail: PropTypes.string,
   contents: PropTypes.string,
-  hitsCount: PropTypes.number,
-  commentsCount: PropTypes.number,
+  hitCount: PropTypes.number,
+  commentCount: PropTypes.number,
 };
 
-function PostBodyBox({ thumbnail, contents, hitsCount, commentsCount }) {
+function PostBodyBox({ thumbnail, contents, hitCount, commentCount }) {
   return (
     <>
       <ThumbnailContainer>
@@ -24,11 +24,11 @@ function PostBodyBox({ thumbnail, contents, hitsCount, commentsCount }) {
 
       <MetadataContainer>
         <MetadataBox>
-          <S.Highlight>{truncateCount(hitsCount)}</S.Highlight>
+          <S.Highlight>{truncateCount(hitCount)}</S.Highlight>
           <S.Highlight>조회수</S.Highlight>
         </MetadataBox>
         <MetadataBox>
-          <S.Highlight>{truncateCount(commentsCount)}</S.Highlight>
+          <S.Highlight>{truncateCount(commentCount)}</S.Highlight>
           <S.Highlight>댓글</S.Highlight>
         </MetadataBox>
       </MetadataContainer>
@@ -60,13 +60,9 @@ const ThumbnailBox = styled.div`
 `;
 
 const StyledImage = styled.img`
-  position: absolute; /* 이미지를 부모 요소 내에서 절대적으로 위치시킴 */
-  top: 50%; /* 부모 요소의 세로 중앙 위치 */
-  left: 50%; /* 부모 요소의 가로 중앙 위치 */
-
-  width: 100%; /* 부모 요소에 가득 차도록 너비 설정 */
-
-  transform: translate(-50%, -50%); /* 이미지를 중앙 정렬하기 위한 변환 */
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 이미지를 확대하여 부모 요소를 덮도록 설정 */
 `;
 
 const ContentsContainer = styled.div`

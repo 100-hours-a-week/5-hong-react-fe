@@ -1,27 +1,27 @@
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 import S from '@/styles/common.jsx';
 import { truncateCount, truncateTitle } from '@/utils/truncate.js';
+import ProfileImage from '@/components/ProfileImage';
 
 PreviewPost.propTypes = {
   postsId: PropTypes.number,
   title: PropTypes.string,
-  likesCount: PropTypes.number,
-  commentsCount: PropTypes.number,
-  hitsCount: PropTypes.number,
+  likeCount: PropTypes.number,
+  commentCount: PropTypes.number,
+  hitCount: PropTypes.number,
   createdAt: PropTypes.string,
   author: PropTypes.object,
 };
 
-// TODO: 컴포넌트 분리, (무한스크롤 시) 스켈레톤 고려
 function PreviewPost({
   postsId,
   title,
-  likesCount,
-  commentsCount,
-  hitsCount,
+  likeCount,
+  commentCount,
+  hitCount,
   createdAt,
   author,
 }) {
@@ -40,9 +40,9 @@ function PreviewPost({
         </StyledTitle>
         <PostDetailContainer>
           <PostMetaContainer>
-            <p>좋아요 {truncateCount(likesCount)} </p>
-            <p>댓글 {truncateCount(commentsCount)} </p>
-            <p>조회수 {truncateCount(hitsCount)} </p>
+            <p>좋아요 {truncateCount(likeCount)} </p>
+            <p>댓글 {truncateCount(commentCount)} </p>
+            <p>조회수 {truncateCount(hitCount)} </p>
           </PostMetaContainer>
           <div>{createdAt}</div>
         </PostDetailContainer>
@@ -51,7 +51,7 @@ function PreviewPost({
       <S.Hr />
 
       <OwnerInfoContainer>
-        <StyledImage src={author.profileImage} />
+        <ProfileImage src={author.profileImage} alt={'AVATAR'} />
         <h3>{author.nickname}</h3>
       </OwnerInfoContainer>
     </PostContainerBox>
@@ -110,14 +110,6 @@ const OwnerInfoContainer = styled.div`
     font-size: 15px;
     font-weight: bold;
   }
-`;
-
-const StyledImage = styled.img`
-  width: 36px;
-  height: 36px;
-
-  border: 1px solid gray;
-  border-radius: 50%;
 `;
 
 const PostDetailContainer = styled.div`

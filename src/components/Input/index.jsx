@@ -1,9 +1,10 @@
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 Input.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.oneOf(['text', 'password']).isRequired,
+  name: PropTypes.string,
   value: PropTypes.string,
   required: PropTypes.bool,
   placeholder: PropTypes.string,
@@ -16,6 +17,7 @@ Input.propTypes = {
 function Input({
   id,
   type,
+  name,
   value,
   required,
   placeholder,
@@ -27,14 +29,12 @@ function Input({
   return (
     <>
       <LabelContainer>
-        <StyledLabel htmlFor={id}>
-          {/* example: 비밀번호* */}
-          {required ? label + '*' : label}
-        </StyledLabel>
+        <StyledLabel htmlFor={id}>{required ? label + '*' : label}</StyledLabel>
       </LabelContainer>
       <StyledInput
         id={id}
         type={type}
+        name={name}
         value={value}
         placeholder={placeholder}
         onChange={onChange}

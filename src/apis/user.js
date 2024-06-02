@@ -11,12 +11,9 @@ export const loginUser = async (loginInfo) => {
   return await api.post(url, { body });
 };
 
-// TODO: 직접 convert 하는게 아니라 request, response body 를 수정하거나 로직에서 수정해야함
 export const signUpUser = async (userInfo) => {
   const url = '/api/v1/members/signup';
-  const { image, ...rest } = userInfo;
-  const data = { ...rest, profileImage: image }; // TODO: convert 문제 해결해야함
-  const body = JSON.stringify(data);
+  const body = JSON.stringify(userInfo);
   return await api.post(url, { body });
 };
 
@@ -45,9 +42,7 @@ export const updatePassword = async (password) => {
 
 export const updateProfile = async (updateInfo) => {
   const url = '/api/v1/members/profile';
-  const { image, ...rest } = updateInfo;
-  const data = { ...rest, profileImage: image };
-  const body = JSON.stringify(data);
+  const body = JSON.stringify(updateInfo);
   return await api.patch(url, { body });
 };
 

@@ -1,10 +1,12 @@
-import { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import S from '@/styles/common.jsx';
 import Modal from '@/components/Modal';
-
+import ProfileImage from '@/components/ProfileImage';
+import useModal from '@/hooks/useModal.js';
+import useAuth from '@/hooks/useAuth.js';
+import useToast from '@/hooks/useToast.js';
 import { deleteComment } from '@/apis/comment.js';
 
 CommentBox.propTypes = {
@@ -12,8 +14,8 @@ CommentBox.propTypes = {
   contents: PropTypes.string,
   createdAt: PropTypes.string,
   author: PropTypes.object,
-  loginUser: PropTypes.object,
   onEditClick: PropTypes.func,
+  onDeleteClick: PropTypes.func,
 };
 
 function CommentBox({
@@ -21,49 +23,42 @@ function CommentBox({
   contents,
   createdAt,
   author,
-  loginUser,
   onEditClick,
+  onDeleteClick,
 }) {
   console.debug('CommentBox() - rendering');
 
-  const [isOpen, setIsOpen] = useState(false); // 모달 상태
-
-  const handleOpenModal = useCallback(() => {
-    setIsOpen(true);
-    document.body.style.overflow = 'hidden'; // 스크롤 이벤트 방지
-  }, []);
-
-  const handleCloseModal = useCallback(() => {
-    setIsOpen(false);
-    document.body.style.overflow = 'auto'; // 스크롤 이벤트 복구
-  }, []);
+  const createToast = useToast();
+  const { userInfo } = useAuth();
+  const { isOpen, openModal, closeModal } = useModal();
 
   const handleDeleteButton = async (e) => {
     e.preventDefault();
 
     await deleteComment(id)
       .then(() => {
-        console.log('삭제 성공');
-        handleCloseModal();
+        onDeleteClick(id);
+        closeModal();
+        createToast({ message: '댓글 삭제 완료' });
       })
-      .catch(() => console.log('댓글 삭제 실패'));
+      .catch(() => createToast({ message: '댓글 삭제에 실패' }));
   };
 
   return (
     <>
       <CommentInfoContainer>
         <OwnerInfoContainer>
-          <StyledImage src={author.profileImage} alt={'OWNER_PROFILE'} />
+          <ProfileImage src={author.profileImage} alt={'OWNER_PROFILE'} />
           <p>
             <S.Highlight>{author.nickname}</S.Highlight>
           </p>
           <p>{createdAt}</p>
 
           <ButtonContainer>
-            {author.memberId === loginUser.memberId && (
+            {userInfo && author.memberId === userInfo.memberId && (
               <>
                 <StyledButton onClick={onEditClick}>수정</StyledButton>
-                <StyledButton onClick={handleOpenModal}>삭제</StyledButton>
+                <StyledButton onClick={openModal}>삭제</StyledButton>
               </>
             )}
           </ButtonContainer>
@@ -74,13 +69,12 @@ function CommentBox({
         </CommentContents>
       </CommentInfoContainer>
 
-      {/*TODO: 추후 전역 hooks 로 관리 (리팩토링)*/}
       {isOpen && (
         <Modal
           title={'댓글을 삭제하시겠습니까?'}
           contents={'삭제한 내용은 복구 할 수 없습니다.'}
-          handleClose={handleCloseModal}
-          handleConfirm={handleDeleteButton}
+          onClose={closeModal}
+          onConfirm={handleDeleteButton}
         />
       )}
     </>
@@ -105,14 +99,6 @@ const OwnerInfoContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-`;
-
-const StyledImage = styled.img`
-  width: 36px;
-  height: 36px;
-
-  border: 1px solid gray;
-  border-radius: 50%;
 `;
 
 const ButtonContainer = styled.div`

@@ -1,36 +1,34 @@
 import api from '@/apis/core';
 
-export const getPostList = async (page) => {
+export const getPostList = async (cursor) => {
   const url = '/api/v1/posts';
-  const params = { page };
+  const params = { cursor };
   const response = await api.get(url, { params });
   return {
     hasNext: response.hasNext,
-    nextPage: response.nextPage,
+    nextCursor: response.nextCursor,
     data: response.data,
   };
 };
 
-export const getPostDetail = async (postsId) => {
-  const url = `/api/v1/posts/${postsId}`;
+export const getPostDetail = async (postId) => {
+  const url = `/api/v1/posts/${postId}`;
   return await api.get(url);
 };
 
 export const createPost = async (postInfo) => {
   const url = '/api/v1/posts';
-  const data = { ...postInfo };
-  const body = JSON.stringify(data);
+  const body = JSON.stringify(postInfo);
   return await api.post(url, { body });
 };
 
-export const updatePost = async (postsId, postInfo) => {
-  const url = `/api/v1/posts/${postsId}`;
-  const data = { ...postInfo };
-  const body = JSON.stringify(data);
+export const updatePost = async (postId, postInfo) => {
+  const url = `/api/v1/posts/${postId}`;
+  const body = JSON.stringify(postInfo);
   return await api.put(url, { body });
 };
 
-export const deletePost = async (postsId) => {
-  const url = `/api/v1/posts/${postsId}`;
+export const deletePost = async (postId) => {
+  const url = `/api/v1/posts/${postId}`;
   return await api.delete(url);
 };
