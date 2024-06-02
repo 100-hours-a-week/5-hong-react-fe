@@ -1,18 +1,18 @@
 import { useCallback, useState } from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
-import CommentForm from '@/components/CommentForm';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
 import CommentBox from '@/components/CommentBox';
+import CommentForm from '@/components/CommentForm';
 
 CommentList.propTypes = {
   comments: PropTypes.array,
-  loginUser: PropTypes.object,
   setCommentList: PropTypes.func,
+  setPostInfo: PropTypes.func,
 };
 
-// FIXME: 현재 CommentBox 내에서 수정 버튼 누르면 전체가 재랜더링되는 문제
-function CommentList({ comments, loginUser, setCommentList }) {
+function CommentList({ comments, setCommentList, setPostInfo }) {
   console.debug('CommentList() - rendering');
 
   const [isEditing, setIsEditing] = useState(false);
@@ -29,6 +29,43 @@ function CommentList({ comments, loginUser, setCommentList }) {
     });
   }, []);
 
+  const handleUpdateComment = useCallback(
+    (updatedComment) => {
+      setCommentList((prevComments) =>
+        prevComments.map((comment) =>
+          comment.commentId === updatedComment.commentId
+            ? { ...comment, contents: updatedComment.contents }
+            : comment,
+        ),
+      );
+    },
+    [setCommentList],
+  );
+
+  const handleDeleteComment = useCallback(
+    (commentId) => {
+      setCommentList((prevComments) =>
+        prevComments.filter((comment) => comment.commentId !== commentId),
+      );
+      setPostInfo((prevInfo) => ({
+        ...prevInfo,
+        commentCount: prevInfo.commentCount - 1,
+      }));
+    },
+    [setCommentList, setPostInfo],
+  );
+
+  const handleAddComment = useCallback(
+    (newComment) => {
+      setCommentList((prevComments) => [newComment, ...prevComments]);
+      setPostInfo((prevInfo) => ({
+        ...prevInfo,
+        commentCount: prevInfo.commentCount + 1,
+      }));
+    },
+    [setCommentList, setPostInfo],
+  );
+
   return (
     <CommentContainer>
       <CommentForm
@@ -38,20 +75,22 @@ function CommentList({ comments, loginUser, setCommentList }) {
         setCurrentComment={setCurrentComment}
         comments={comments}
         setCommentList={setCommentList}
+        onUpdateComment={handleUpdateComment}
+        onAddComment={handleAddComment}
       />
 
       <ul>
         {comments.map((comment) => (
           <CommentBox
-            key={comment.commentsId}
-            id={comment.commentsId}
+            key={comment.commentId}
+            id={comment.commentId}
             contents={comment.contents}
             createdAt={comment.createdAt}
             author={comment.owner}
-            loginUser={loginUser}
             onEditClick={() =>
-              handleEditComment(comment.commentsId, comment.contents)
+              handleEditComment(comment.commentId, comment.contents)
             }
+            onDeleteClick={handleDeleteComment}
           />
         ))}
       </ul>
