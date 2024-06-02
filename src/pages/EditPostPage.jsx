@@ -7,7 +7,10 @@ import S from '@/styles/common.jsx';
 import PostForm from '@/components/PostForm';
 import useToast from '@/hooks/useToast.js';
 import useFetch from '@/hooks/useFetch.js';
+import withLoading from '@/hoc/withLoading.jsx';
 import { getPostDetail, updatePost } from '@/apis/post.js';
+
+const PostFormWithLoading = withLoading(PostForm);
 
 function EditPostPage() {
   console.debug('EditPostPage() - rendering');
@@ -15,7 +18,7 @@ function EditPostPage() {
   const createToast = useToast();
   const { postId } = useParams();
   const navigate = useNavigate();
-  const { data } = useFetch({
+  const { data, isLoading } = useFetch({
     initialValue: { title: null, contents: null, thumbnail: null },
     fetchFn: useCallback(async () => await getPostDetail(postId), [postId]),
   });
@@ -34,7 +37,11 @@ function EditPostPage() {
       <StyledTitle>
         <S.Highlight>게시글 수정</S.Highlight>
       </StyledTitle>
-      <PostForm data={data} onSubmit={handleOnSubmit} />
+      <PostFormWithLoading
+        isLoading={isLoading}
+        data={data}
+        onSubmit={handleOnSubmit}
+      />
     </StyledArticle>
   );
 }
