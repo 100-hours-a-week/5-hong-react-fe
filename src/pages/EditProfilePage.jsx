@@ -2,16 +2,17 @@ import styled from 'styled-components';
 
 import S from '@/styles/common.jsx';
 import ProfileForm from '@/components/ProfileForm';
+import withAuth from '@/hoc/withAuth.jsx';
 
-// TODO: 이미지 컨테이너 버튼 수정 후 리팩토링
-// TODO: 컴포넌트 분리
+const ProfileFormWithAuth = withAuth(ProfileForm);
+
 function EditProfilePage() {
   return (
     <StyledArticle>
       <StyledTitle>
         <S.Highlight>회원정보수정</S.Highlight>
       </StyledTitle>
-      <ProfileForm />
+      <ProfileFormWithAuth />
     </StyledArticle>
   );
 }

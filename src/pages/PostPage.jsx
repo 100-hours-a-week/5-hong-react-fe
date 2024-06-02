@@ -7,9 +7,12 @@ import S from '@/styles/common.jsx';
 import PostBox from '@/components/PostBox';
 import CommentList from '@/components/CommentList';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll.js';
+import useFetch from '@/hooks/useFetch.js';
+import withLoading from '@/hoc/withLoading.jsx';
 import { getPostDetail } from '@/apis/post.js';
 import { getCommentList } from '@/apis/comment.js';
-import useFetch from '@/hooks/useFetch.js';
+
+const PostBoxWithLoading = withLoading(PostBox);
 
 function PostPage() {
   const { postId } = useParams();
@@ -20,18 +23,14 @@ function PostPage() {
     ),
     message: '마지막 댓글입니다.',
   });
-  const { data, setData } = useFetch({
+  const { data, setData, isLoading } = useFetch({
     initialValue: {},
     fetchFn: useCallback(async () => await getPostDetail(postId), [postId]),
   });
 
   return (
     <StyledArticle>
-      {Object.keys(data).length > 0 ? (
-        <PostBox post={data} />
-      ) : (
-        <p>로딩중...</p>
-      )}
+      <PostBoxWithLoading isLoading={isLoading} data={data} />
 
       <S.Hr />
 
