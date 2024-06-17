@@ -9,7 +9,7 @@ import formValidate from '@/components/LoginForm/formValidate.js';
 import useForm from '@/hooks/useForm.js';
 import useAuth from '@/hooks/useAuth.js';
 import useToast from '@/hooks/useToast.js';
-import { loginUser } from '@/apis/user.js';
+import { postLogin } from '@/apis/member/postLogin.js';
 
 function LoginForm() {
   console.debug('LoginForm() - rendering');
@@ -26,7 +26,7 @@ function LoginForm() {
   );
 
   const loginRequest = async (loginInfo) => {
-    await loginUser(loginInfo)
+    await postLogin(loginInfo)
       .then(() => {
         navigate(PATH.MAIN);
         createToast({ message: '로그인 성공' });
