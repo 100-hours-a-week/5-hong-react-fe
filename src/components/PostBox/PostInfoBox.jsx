@@ -9,7 +9,7 @@ import ProfileImage from '@/components/ProfileImage';
 import useAuth from '@/hooks/useAuth.js';
 import useModal from '@/hooks/useModal.js';
 import useToast from '@/hooks/useToast.js';
-import { deletePost } from '@/apis/post.js';
+import { deletePost } from '@/apis/post/deletePost.js';
 
 PostInfoBox.propTypes = {
   postId: PropTypes.number,

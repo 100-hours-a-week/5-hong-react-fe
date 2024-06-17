@@ -8,7 +8,8 @@ import PostForm from '@/components/PostForm';
 import useToast from '@/hooks/useToast.js';
 import useFetch from '@/hooks/useFetch.js';
 import withLoading from '@/hoc/withLoading.jsx';
-import { getPostDetail, updatePost } from '@/apis/post.js';
+import { getPostDetail } from '@/apis/post/getPostDetail.js';
+import { putUpdatePost } from '@/apis/post/putUpdatePost.js';
 
 const PostFormWithLoading = withLoading(PostForm);
 
@@ -24,7 +25,7 @@ function EditPostPage() {
   });
 
   const handleOnSubmit = async (postInfo) => {
-    await updatePost(postId, postInfo)
+    await putUpdatePost(postId, postInfo)
       .then(() => {
         navigate(-1);
         createToast({ message: '게시글 수정 완료' });

@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import Button from '@/components/Button';
 import PostList from '@/components/PostList';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll.js';
-import { getPostList } from '@/apis/post.js';
 import PATH from '@/constants/path.js';
+import { getPostList } from '@/apis/post/getPostList.js';
 
 function MainPage() {
   console.debug('MainPage() - rendering');

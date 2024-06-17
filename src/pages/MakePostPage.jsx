@@ -5,7 +5,7 @@ import S from '@/styles/common.jsx';
 import PATH from '@/constants/path.js';
 import PostForm from '@/components/PostForm';
 import useToast from '@/hooks/useToast.js';
-import { createPost } from '@/apis/post.js';
+import { postCreatePost } from '@/apis/post/postCreatePost.js';
 
 function MakePostPage() {
   console.debug('MakePostPage() - rendering');
@@ -14,7 +14,7 @@ function MakePostPage() {
   const navigate = useNavigate();
 
   const handleOnSubmit = async (postInfo) => {
-    await createPost(postInfo)
+    await postCreatePost(postInfo)
       .then(() => {
         createToast({ message: '게시글 작성 완료' });
         navigate(PATH.MAIN);
