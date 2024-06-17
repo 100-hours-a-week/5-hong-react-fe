@@ -8,7 +8,7 @@ import PATH from '@/constants/path.js';
 import formValidate from '@/components/PasswordForm/formValidate.js';
 import useForm from '@/hooks/useForm.js';
 import useToast from '@/hooks/useToast.js';
-import { updatePassword } from '@/apis/user.js';
+import { putUpdatePassword } from '@/apis/member/putUpdatePassword.js';
 
 function PasswordForm() {
   console.debug('PasswordForm() - rendering');
@@ -30,7 +30,7 @@ function PasswordForm() {
   const isSubmitDisabled = Object.keys(errors).length > 0 || isLoading;
 
   const updatePasswordRequest = async (updateInfo) => {
-    await updatePassword(updateInfo)
+    await putUpdatePassword(updateInfo)
       .then(() => {
         navigate(PATH.MAIN);
         createToast({ message: '비밀번호 변경 완료' });

@@ -9,7 +9,7 @@ import formValidate from '@/components/SignUpForm/formValidate.js';
 import useForm from '@/hooks/useForm.js';
 import useToast from '@/hooks/useToast.js';
 import useUploadImage from '@/hooks/useUploadImage.js';
-import { signUpUser } from '@/apis/user.js';
+import { postSignup } from '@/apis/member/postSignup.js';
 
 function SignUpForm() {
   console.debug('SignUpForm() - rendering');
@@ -30,8 +30,14 @@ function SignUpForm() {
     },
   );
 
+  // const signupRequest = async (loginInfo) => {
+  //   await signUpUser(loginInfo)
+  //     .then(() => navigate(PATH.LOGIN))
+  //     .catch(() => createToast({ message: '회원가입에 실패' }));
+  // };
+
   const signupRequest = async (loginInfo) => {
-    await signUpUser(loginInfo)
+    await postSignup(loginInfo)
       .then(() => navigate(PATH.LOGIN))
       .catch(() => createToast({ message: '회원가입에 실패' }));
   };

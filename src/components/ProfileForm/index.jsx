@@ -13,7 +13,8 @@ import useAuth from '@/hooks/useAuth.js';
 import useToast from '@/hooks/useToast.js';
 import useModal from '@/hooks/useModal.js';
 import useUploadImage from '@/hooks/useUploadImage.js';
-import { updateProfile, withdrawUser } from '@/apis/user.js';
+import { putUpdateProfile } from '@/apis/member/putUpdateProfile.js';
+import { deleteWithdraw } from '@/apis/member/deleteWithdraw.js';
 
 function ProfileForm() {
   console.debug('ProfileForm() - rendering');
@@ -35,8 +36,9 @@ function ProfileForm() {
   const handleWithdrawButton = async (e) => {
     e.preventDefault();
 
-    await withdrawUser()
+    await deleteWithdraw()
       .then(() => {
+        reload();
         navigate(PATH.LOGIN);
         createToast({ message: '회원탈퇴 완료' });
       })
@@ -44,7 +46,7 @@ function ProfileForm() {
   };
 
   const updateRequest = async (userInfo) => {
-    await updateProfile(userInfo)
+    await putUpdateProfile(userInfo)
       .then(() => {
         reload();
         navigate(PATH.MAIN);
