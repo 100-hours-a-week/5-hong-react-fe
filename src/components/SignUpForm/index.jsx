@@ -30,12 +30,6 @@ function SignUpForm() {
     },
   );
 
-  // const signupRequest = async (loginInfo) => {
-  //   await signUpUser(loginInfo)
-  //     .then(() => navigate(PATH.LOGIN))
-  //     .catch(() => createToast({ message: '회원가입에 실패' }));
-  // };
-
   const signupRequest = async (loginInfo) => {
     await postSignup(loginInfo)
       .then(() => navigate(PATH.LOGIN))

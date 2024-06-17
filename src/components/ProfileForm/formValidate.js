@@ -7,9 +7,6 @@ const formValidate = async ({ nickname }) => {
 
   const { isValid, message } = nicknameValidate(nickname);
   if (!isValid) validateErrors.nickname = message;
-  // await validateNickname({ nickname }).catch(
-  //   () => (validateErrors.nickname = VALIDATE_MESSAGES.NICKNAME.DUPLICATE),
-  // );
   else
     await postCheckNickname({ nickname }).catch(
       () => (validateErrors.nickname = VALIDATE_MESSAGES.NICKNAME.DUPLICATE),
