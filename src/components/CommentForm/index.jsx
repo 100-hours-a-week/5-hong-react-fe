@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
-
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
+
+import {
+  StyledForm,
+  StyledTextarea,
+  SubmitButtonContainer,
+} from '@/components/CommentForm/CommentForm.style.js';
 
 import S from '@/styles/common.jsx';
 import Button from '@/components/Button';
@@ -115,34 +119,3 @@ function CommentForm({
 }
 
 export default CommentForm;
-
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  height: 169px;
-
-  border-radius: 8px;
-  background-color: white;
-`;
-
-const StyledTextarea = styled.textarea`
-  width: 490px;
-  margin-top: 25px;
-
-  height: 95px;
-
-  border: none;
-  outline: none;
-`;
-
-const SubmitButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-
-  width: 100%;
-
-  padding: 10px 0;
-`;

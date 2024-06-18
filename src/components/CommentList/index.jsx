@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
-
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+
+import { CommentContainer } from '@/components/CommentList/CommentList.style.js';
 
 import CommentBox from '@/components/CommentBox';
 import CommentForm from '@/components/CommentForm';
@@ -99,12 +99,3 @@ function CommentList({ comments, setCommentList, setPostInfo }) {
 }
 
 export default CommentList;
-
-const CommentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  gap: 10px;
-
-  width: 600px;
-`;

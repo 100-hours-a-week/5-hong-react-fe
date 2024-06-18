@@ -1,11 +1,20 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
+
+import {
+  ButtonContainer,
+  OwnerInfoContainer,
+  PostDetailContainer,
+  PostInfoContainer,
+  PostTileContainer,
+  StyledButton,
+  StyledTitle,
+} from '@/components/PostBox/PostInfoBox/PostInfoBox.style.js';
 
 import S from '@/styles/common.jsx';
 import PATH from '@/constants/path.js';
-import Modal from '@/components/Modal';
-import ProfileImage from '@/components/ProfileImage';
+import Modal from '@/components/Modal/index.jsx';
+import ProfileImage from '@/components/ProfileImage/index.jsx';
 import useAuth from '@/hooks/useAuth.js';
 import useModal from '@/hooks/useModal.js';
 import useToast from '@/hooks/useToast.js';
@@ -84,55 +93,3 @@ function PostInfoBox({ postId, title, createdAt, author }) {
 }
 
 export default PostInfoBox;
-
-const PostTileContainer = styled.div`
-  width: 100%;
-
-  text-align: left;
-`;
-
-const StyledTitle = styled.h2`
-  font-weight: bold;
-`;
-
-const PostDetailContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const PostInfoContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 20px;
-
-  font-size: 15px;
-`;
-
-const OwnerInfoContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  gap: 10px;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
-
-const StyledButton = styled.button`
-  width: 48px;
-  height: 26px;
-
-  border: 1px solid #aca0eb;
-  border-radius: 5px;
-  background-color: #f4f5f7;
-
-  color: black;
-  font-size: 13px;
-  text-align: center;
-
-  cursor: pointer;
-`;

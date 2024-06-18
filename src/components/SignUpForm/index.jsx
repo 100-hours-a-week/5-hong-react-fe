@@ -1,5 +1,9 @@
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+
+import {
+  StyledForm,
+  StyledInputContainer,
+} from '@/components/SignUpForm/SignUpForm.style.js';
 
 import PATH from '@/constants/path.js';
 import Input from '@/components/Input';
@@ -109,13 +113,3 @@ function SignUpForm() {
 }
 
 export default SignUpForm;
-
-const StyledForm = styled.form`
-  width: 100%;
-
-  margin: 10px 0;
-`;
-
-const StyledInputContainer = styled.div`
-  margin-top: 5px;
-`;

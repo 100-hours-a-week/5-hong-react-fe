@@ -1,6 +1,14 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+
+import {
+  OwnerInfoContainer,
+  PostContainer,
+  PostContainerBox,
+  PostDetailContainer,
+  PostMetaContainer,
+  StyledTitle,
+} from '@/components/PreviewPost/PreviewPost.style.js';
 
 import S from '@/styles/common.jsx';
 import { truncateCount, truncateTitle } from '@/utils/truncate.js';
@@ -59,67 +67,3 @@ function PreviewPost({
 }
 
 export default PreviewPost;
-
-const PostContainerBox = styled.li`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-
-  width: 592px;
-
-  padding-bottom: 10px;
-  padding-top: 17px;
-
-  border-radius: 16px;
-  background-color: #fff;
-  box-shadow: 3px 4px 4px 0 #cccccc40;
-
-  cursor: pointer;
-`;
-
-const PostContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  width: 544px;
-
-  padding: 5px 0 20px;
-`;
-
-const StyledTitle = styled.div`
-  font-weight: bold;
-  text-align: left;
-  padding-bottom: 15px;
-`;
-
-const OwnerInfoContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 24px;
-
-  width: 544px;
-  height: 52px;
-
-  text-align: left;
-  padding-top: 8px;
-
-  h3 {
-    font-size: 15px;
-    font-weight: bold;
-  }
-`;
-
-const PostDetailContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-
-  font-size: 14px;
-`;
-
-const PostMetaContainer = styled.div`
-  display: flex;
-  gap: 3px;
-`;

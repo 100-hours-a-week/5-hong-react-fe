@@ -1,5 +1,9 @@
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+
+import {
+  StyledInputContainer,
+  StyledLoginForm,
+} from '@/components/LoginForm/LoginForm.style.js';
 
 import Input from '@/components/Input';
 import Button from '@/components/Button';
@@ -79,13 +83,3 @@ function LoginForm() {
 }
 
 export default LoginForm;
-
-const StyledLoginForm = styled.form`
-  width: 100%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-`;
-
-const StyledInputContainer = styled.div`
-  margin-top: 8px;
-`;

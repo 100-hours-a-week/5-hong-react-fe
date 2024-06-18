@@ -1,5 +1,6 @@
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+
+import { StyledButton } from '@/components/Button/Button.style.js';
 
 Button.propTypes = {
   type: PropTypes.oneOf(['button', 'submit']).isRequired,
@@ -18,26 +19,3 @@ function Button({ type, text, disabled = false, ...props }) {
 }
 
 export default Button;
-
-const StyledButton = styled.button`
-  width: ${({ width }) => width};
-
-  padding: 8px; /* 버튼 내부 여백 */
-  margin: ${({ $margin }) => ($margin ? $margin : '0')};
-
-  border: none;
-  border-radius: ${({ $radius }) =>
-    $radius ? $radius : '4px'}; /* 기본값 4px */
-
-  color: white;
-
-  cursor: pointer;
-
-  &:disabled {
-    background-color: var(--purple-1);
-  }
-
-  &:not(:disabled) {
-    background-color: var(--purple-2);
-  }
-`;

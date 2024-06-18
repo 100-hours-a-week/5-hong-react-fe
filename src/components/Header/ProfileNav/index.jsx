@@ -1,11 +1,15 @@
 import { useState } from 'react';
-
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
+import {
+  DropdownContainer,
+  DropdownOption,
+  ProfileContainer,
+} from '@/components/Header/ProfileNav/ProfileNav.style.js';
+
 import PATH from '@/constants/path.js';
-import ProfileImage from '@/components/ProfileImage';
+import ProfileImage from '@/components/ProfileImage/index.jsx';
 import useAuth from '@/hooks/useAuth.js';
 import useToast from '@/hooks/useToast.js';
 import { postLogout } from '@/apis/member/postLogout.js';
@@ -65,29 +69,3 @@ function ProfileNav() {
 }
 
 export default ProfileNav;
-
-const ProfileContainer = styled.div`
-  width: 40px;
-  height: 40px;
-`;
-
-const DropdownContainer = styled.ul`
-  position: absolute;
-  z-index: 1;
-
-  min-width: 100px;
-
-  background-color: lightgray;
-`;
-
-const DropdownOption = styled.li`
-  padding: 12px 16px;
-
-  font-size: 14px;
-
-  cursor: pointer;
-
-  &:hover {
-    background-color: var(--white-2);
-  }
-`;

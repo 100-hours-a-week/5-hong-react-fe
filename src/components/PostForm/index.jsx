@@ -1,5 +1,14 @@
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+
+import {
+  ButtonContainer,
+  HelperText,
+  StyledFileInput,
+  StyledForm,
+  StyledInput,
+  StyledSubTitle,
+  StyledTextarea,
+} from '@/components/PostForm/PostForm.style.js';
 
 import S from '@/styles/common.jsx';
 import Button from '@/components/Button';
@@ -84,54 +93,3 @@ function PostForm({ data, onSubmit }) {
 }
 
 export default PostForm;
-
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
-
-const StyledSubTitle = styled.p`
-  margin: 15px 15px 15px 30px;
-
-  font-size: 15px;
-`;
-
-const StyledInput = styled.input`
-  width: 540px;
-
-  padding: 10px;
-  margin: 20px;
-
-  border: none;
-  background-color: transparent;
-`;
-
-const StyledTextarea = styled.textarea`
-  width: 540px;
-  height: 300px;
-
-  padding: 10px;
-  margin: 20px;
-
-  border: none;
-  background-color: transparent;
-`;
-
-const HelperText = styled.p`
-  margin-top: 10px;
-  margin-left: 28px;
-
-  color: red;
-  font-size: 12px;
-`;
-
-const StyledFileInput = styled.input`
-  margin: 0 0 30px 30px;
-`;
-
-const ButtonContainer = styled.div`
-  align-items: center;
-
-  width: 100%;
-`;

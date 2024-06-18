@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+
+import { Container } from '@/components/PostList/PostList.style.js';
 
 import PreviewPost from '@/components/PreviewPost';
 
@@ -30,15 +31,3 @@ function PostList({ data }) {
 }
 
 export default PostList;
-
-const Container = styled.ul`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 13px;
-
-  width: 600px;
-
-  margin: 10px auto;
-`;
