@@ -7,7 +7,7 @@ import ProfileImage from '@/components/ProfileImage';
 import useModal from '@/hooks/useModal.js';
 import useAuth from '@/hooks/useAuth.js';
 import useToast from '@/hooks/useToast.js';
-import { deleteComment } from '@/apis/comment.js';
+import { deleteComment } from '@/apis/comment/deleteComment.js';
 
 CommentBox.propTypes = {
   id: PropTypes.number,
