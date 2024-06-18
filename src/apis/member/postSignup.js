@@ -1,8 +1,8 @@
 import { axiosInstance } from '@/apis/axiosInstance.js';
 
-export const postSignup = async (userInfo) => {
-  const url = `/api/v1/members/signup`;
+import { END_POINTS } from '@/constants/api.js';
 
-  const { data } = await axiosInstance.post(url, { ...userInfo });
+export const postSignup = async (userInfo) => {
+  const { data } = await axiosInstance.post(END_POINTS.SIGNUP, { ...userInfo });
   return data;
 };

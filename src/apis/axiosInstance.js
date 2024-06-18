@@ -1,13 +1,11 @@
 import axios from 'axios';
 
-import { API_BASE_URL } from '@/constants/baseConfig.js';
+import { AXIOS_BASE_URL, NETWORK } from '@/constants/api.js';
 import { handleTokenError } from '@/apis/interceptors.js';
 
-// TODO: 상수 관리
-
 export const axiosInstance = axios.create({
-  baseURL: API_BASE_URL,
-  timeout: 5000, // 5초
+  baseURL: AXIOS_BASE_URL,
+  timeout: NETWORK.TIMEOUT,
   withCredentials: true,
 });
 

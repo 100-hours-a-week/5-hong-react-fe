@@ -1,8 +1,10 @@
 import { axiosInstance } from '@/apis/axiosInstance.js';
 
-export const postCheckEmail = async (email) => {
-  const url = `/api/v1/members/email`;
+import { END_POINTS } from '@/constants/api.js';
 
-  const { data } = await axiosInstance.post(url, { ...email });
+export const postCheckEmail = async (email) => {
+  const { data } = await axiosInstance.post(END_POINTS.MEMBERS_EMAIL, {
+    ...email,
+  });
   return data;
 };

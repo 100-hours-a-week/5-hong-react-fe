@@ -1,9 +1,9 @@
 import { axiosInstance } from '@/apis/axiosInstance.js';
 
-export const postLogout = async () => {
-  const url = `/api/v1/members/logout`;
+import { END_POINTS } from '@/constants/api.js';
 
-  const { data } = await axiosInstance.post(url);
+export const postLogout = async () => {
+  const { data } = await axiosInstance.post(END_POINTS.LOGOUT);
 
   delete axiosInstance.defaults.headers.Authorization;
 

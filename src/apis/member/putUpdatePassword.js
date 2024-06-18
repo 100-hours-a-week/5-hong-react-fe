@@ -1,8 +1,10 @@
 import { axiosInstance } from '@/apis/axiosInstance.js';
 
-export const putUpdatePassword = async (password) => {
-  const url = `/api/v1/members/password`;
+import { END_POINTS } from '@/constants/api.js';
 
-  const { data } = await axiosInstance.put(url, { ...password });
+export const putUpdatePassword = async (password) => {
+  const { data } = await axiosInstance.put(END_POINTS.MEMBERS_PASSWORD, {
+    ...password,
+  });
   return data;
 };

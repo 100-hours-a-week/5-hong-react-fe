@@ -1,8 +1,8 @@
 import { axiosInstance } from '@/apis/axiosInstance.js';
 
-export const getPostDetail = async (postId) => {
-  const url = `/api/v1/posts/${postId}`;
+import { END_POINTS } from '@/constants/api.js';
 
-  const { data } = await axiosInstance.get(url);
+export const getPostDetail = async (postId) => {
+  const { data } = await axiosInstance.get(END_POINTS.POSTS_ID(postId));
   return data;
 };

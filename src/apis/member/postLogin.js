@@ -1,9 +1,9 @@
 import { axiosInstance } from '@/apis/axiosInstance.js';
 
-export const postLogin = async (loginInfo) => {
-  const url = '/api/v1/members/login';
+import { END_POINTS } from '@/constants/api.js';
 
-  const { data } = await axiosInstance.post(url, { ...loginInfo });
+export const postLogin = async (loginInfo) => {
+  const { data } = await axiosInstance.post(END_POINTS.LOGIN, { ...loginInfo });
 
   axiosInstance.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
 

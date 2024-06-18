@@ -1,8 +1,8 @@
 import { axiosInstance } from '@/apis/axiosInstance.js';
 
-export const postCreatePost = async (postInfo) => {
-  const url = `/api/v1/posts`;
+import { END_POINTS } from '@/constants/api.js';
 
-  const { data } = await axiosInstance.post(url, { ...postInfo });
+export const postCreatePost = async (postInfo) => {
+  const { data } = await axiosInstance.post(END_POINTS.POSTS, { ...postInfo });
   return data;
 };

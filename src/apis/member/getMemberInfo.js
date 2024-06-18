@@ -1,9 +1,9 @@
 import { axiosInstance } from '@/apis/axiosInstance.js';
 
-export const getMemberInfo = async () => {
-  const url = '/api/v1/members/me';
+import { END_POINTS } from '@/constants/api.js';
 
-  const { data } = await axiosInstance.get(url);
+export const getMemberInfo = async () => {
+  const { data } = await axiosInstance.get(END_POINTS.MEMBERS_ME);
   console.log('getMemberInfo res :: ', data);
 
   return data;

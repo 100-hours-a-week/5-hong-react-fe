@@ -1,8 +1,10 @@
 import { axiosInstance } from '@/apis/axiosInstance.js';
 
-export const putUpdatePost = async (postId, postInfo) => {
-  const url = `/api/v1/posts/${postId}`;
+import { END_POINTS } from '@/constants/api.js';
 
-  const { data } = await axiosInstance.put(url, { ...postInfo });
+export const putUpdatePost = async (postId, postInfo) => {
+  const { data } = await axiosInstance.put(END_POINTS.POSTS_ID(postId), {
+    ...postInfo,
+  });
   return data;
 };
