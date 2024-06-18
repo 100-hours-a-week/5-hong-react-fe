@@ -15,7 +15,7 @@ import useToast from '@/hooks/useToast.js';
 import useUploadImage from '@/hooks/useUploadImage.js';
 import { postSignup } from '@/apis/member/postSignup.js';
 
-function SignUpForm() {
+const SignUpForm = () => {
   console.debug('SignUpForm() - rendering');
 
   const createToast = useToast();
@@ -110,6 +110,6 @@ function SignUpForm() {
       />
     </StyledForm>
   );
-}
+};
 
 export default SignUpForm;

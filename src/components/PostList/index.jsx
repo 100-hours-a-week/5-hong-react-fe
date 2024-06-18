@@ -4,11 +4,7 @@ import { Container } from '@/components/PostList/PostList.style.js';
 
 import PreviewPost from '@/components/PreviewPost';
 
-PostList.propTypes = {
-  data: PropTypes.array,
-};
-
-function PostList({ data }) {
+const PostList = ({ data }) => {
   console.debug('PostList() - rendering');
 
   // noinspection JSValidateTypes
@@ -28,6 +24,10 @@ function PostList({ data }) {
       ))}
     </Container>
   );
-}
+};
+
+PostList.propTypes = {
+  data: PropTypes.array,
+};
 
 export default PostList;

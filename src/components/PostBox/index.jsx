@@ -9,11 +9,7 @@ import S from '@/styles/common.jsx';
 import PostInfoBox from '@/components/PostBox/PostInfoBox';
 import PostBodyBox from '@/components/PostBox/PostBodyBox';
 
-PostBox.propTypes = {
-  data: PropTypes.object,
-};
-
-function PostBox({ data }) {
+const PostBox = ({ data }) => {
   console.debug('PostBox() - rendering');
 
   return (
@@ -39,6 +35,10 @@ function PostBox({ data }) {
       </PostBodyBoxContainer>
     </>
   );
-}
+};
+
+PostBox.propTypes = {
+  data: PropTypes.object,
+};
 
 export default PostBox;

@@ -8,20 +8,8 @@ import {
   StyledLabel,
 } from '@/components/Input/Input.style.js';
 
-Input.propTypes = {
-  id: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['text', 'password']).isRequired,
-  name: PropTypes.string,
-  value: PropTypes.string,
-  required: PropTypes.bool,
-  placeholder: PropTypes.string,
-  onChange: PropTypes.func,
-  label: PropTypes.string,
-  helperText: PropTypes.string,
-};
-
 // Base Input Components
-function Input({
+const Input = ({
   id,
   type,
   name,
@@ -32,7 +20,7 @@ function Input({
   label,
   helperText,
   ...props
-}) {
+}) => {
   return (
     <>
       <LabelContainer>
@@ -55,6 +43,18 @@ function Input({
       )}
     </>
   );
-}
+};
+
+Input.propTypes = {
+  id: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.string,
+  required: PropTypes.bool,
+  placeholder: PropTypes.string,
+  onChange: PropTypes.func,
+  label: PropTypes.string,
+  helperText: PropTypes.string,
+};
 
 export default Input;

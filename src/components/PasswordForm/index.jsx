@@ -8,13 +8,12 @@ import {
 import Input from '@/components/Input';
 import Button from '@/components/Button';
 import PATH from '@/constants/path.js';
-
 import formValidate from '@/components/PasswordForm/formValidate.js';
 import useForm from '@/hooks/useForm.js';
 import useToast from '@/hooks/useToast.js';
 import { putUpdatePassword } from '@/apis/member/putUpdatePassword.js';
 
-function PasswordForm() {
+const PasswordForm = () => {
   console.debug('PasswordForm() - rendering');
 
   const createToast = useToast();
@@ -79,6 +78,6 @@ function PasswordForm() {
       />
     </StyledForm>
   );
-}
+};
 
 export default PasswordForm;

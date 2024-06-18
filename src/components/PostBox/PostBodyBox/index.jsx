@@ -12,14 +12,7 @@ import {
 import S from '@/styles/common.jsx';
 import { truncateCount } from '@/utils/truncate.js';
 
-PostBodyBox.propTypes = {
-  thumbnail: PropTypes.string,
-  contents: PropTypes.string,
-  hitCount: PropTypes.number,
-  commentCount: PropTypes.number,
-};
-
-function PostBodyBox({ thumbnail, contents, hitCount, commentCount }) {
+const PostBodyBox = ({ thumbnail, contents, hitCount, commentCount }) => {
   return (
     <>
       <ThumbnailContainer>
@@ -42,6 +35,13 @@ function PostBodyBox({ thumbnail, contents, hitCount, commentCount }) {
       </MetadataContainer>
     </>
   );
-}
+};
+
+PostBodyBox.propTypes = {
+  thumbnail: PropTypes.string,
+  contents: PropTypes.string,
+  hitCount: PropTypes.number,
+  commentCount: PropTypes.number,
+};
 
 export default PostBodyBox;

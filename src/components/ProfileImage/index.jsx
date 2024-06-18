@@ -5,17 +5,17 @@ import {
   StyledImage,
 } from '@/components/ProfileImage/ProfileImage.style.js';
 
-ProfileImage.propTypes = {
-  width: PropTypes.string,
-  height: PropTypes.string,
-};
-
-function ProfileImage({ width, height, ...props }) {
+const ProfileImage = ({ width, height, ...props }) => {
   return (
     <StyledContainer width={width} height={height}>
       <StyledImage {...props} />
     </StyledContainer>
   );
-}
+};
+
+ProfileImage.propTypes = {
+  width: PropTypes.string,
+  height: PropTypes.string,
+};
 
 export default ProfileImage;

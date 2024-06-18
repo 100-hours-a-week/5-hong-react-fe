@@ -20,14 +20,7 @@ import useModal from '@/hooks/useModal.js';
 import useToast from '@/hooks/useToast.js';
 import { deletePost } from '@/apis/post/deletePost.js';
 
-PostInfoBox.propTypes = {
-  postId: PropTypes.number,
-  title: PropTypes.string,
-  createdAt: PropTypes.string,
-  author: PropTypes.object,
-};
-
-function PostInfoBox({ postId, title, createdAt, author }) {
+const PostInfoBox = ({ postId, title, createdAt, author }) => {
   const createToast = useToast();
   const location = useLocation();
   const navigate = useNavigate();
@@ -90,6 +83,13 @@ function PostInfoBox({ postId, title, createdAt, author }) {
       )}
     </>
   );
-}
+};
+
+PostInfoBox.propTypes = {
+  postId: PropTypes.number,
+  title: PropTypes.string,
+  createdAt: PropTypes.string,
+  author: PropTypes.object,
+};
 
 export default PostInfoBox;

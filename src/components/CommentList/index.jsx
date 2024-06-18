@@ -6,13 +6,7 @@ import { CommentContainer } from '@/components/CommentList/CommentList.style.js'
 import CommentBox from '@/components/CommentBox';
 import CommentForm from '@/components/CommentForm';
 
-CommentList.propTypes = {
-  comments: PropTypes.array,
-  setCommentList: PropTypes.func,
-  setPostInfo: PropTypes.func,
-};
-
-function CommentList({ comments, setCommentList, setPostInfo }) {
+const CommentList = ({ comments, setCommentList, setPostInfo }) => {
   console.debug('CommentList() - rendering');
 
   const [isEditing, setIsEditing] = useState(false);
@@ -96,6 +90,12 @@ function CommentList({ comments, setCommentList, setPostInfo }) {
       </ul>
     </CommentContainer>
   );
-}
+};
+
+CommentList.propTypes = {
+  comments: PropTypes.array,
+  setCommentList: PropTypes.func,
+  setPostInfo: PropTypes.func,
+};
 
 export default CommentList;

@@ -14,17 +14,7 @@ import S from '@/styles/common.jsx';
 import { truncateCount, truncateTitle } from '@/utils/truncate.js';
 import ProfileImage from '@/components/ProfileImage';
 
-PreviewPost.propTypes = {
-  postsId: PropTypes.number,
-  title: PropTypes.string,
-  likeCount: PropTypes.number,
-  commentCount: PropTypes.number,
-  hitCount: PropTypes.number,
-  createdAt: PropTypes.string,
-  author: PropTypes.object,
-};
-
-function PreviewPost({
+const PreviewPost = ({
   postsId,
   title,
   likeCount,
@@ -32,7 +22,7 @@ function PreviewPost({
   hitCount,
   createdAt,
   author,
-}) {
+}) => {
   const navigate = useNavigate();
 
   const handleClickPostPreview = () => {
@@ -64,6 +54,16 @@ function PreviewPost({
       </OwnerInfoContainer>
     </PostContainerBox>
   );
-}
+};
+
+PreviewPost.propTypes = {
+  postsId: PropTypes.number,
+  title: PropTypes.string,
+  likeCount: PropTypes.number,
+  commentCount: PropTypes.number,
+  hitCount: PropTypes.number,
+  createdAt: PropTypes.string,
+  author: PropTypes.object,
+};
 
 export default PreviewPost;

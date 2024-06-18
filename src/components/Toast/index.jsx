@@ -6,11 +6,7 @@ import {
   StyledToastWrapper,
 } from '@/components/Toast/Toast.style.js';
 
-Toast.propTypes = {
-  children: PropTypes.node,
-};
-
-function Toast({ children }) {
+const Toast = ({ children }) => {
   const [isShown, setIsShown] = useState(true);
 
   useEffect(() => {
@@ -26,6 +22,10 @@ function Toast({ children }) {
       <StyledToast>{children}</StyledToast>
     </StyledToastWrapper>
   ) : null;
-}
+};
+
+Toast.propTypes = {
+  children: PropTypes.node,
+};
 
 export default Toast;

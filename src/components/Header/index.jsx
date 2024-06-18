@@ -10,7 +10,7 @@ import PATH from '@/constants/path.js';
 import GoBackNav from '@/components/Header/GoBackNav';
 import ProfileNav from '@/components/Header/ProfileNav';
 
-function Header() {
+const Header = () => {
   console.debug('Header() - rendering');
 
   const navigate = useNavigate();
@@ -28,6 +28,6 @@ function Header() {
       </Container>
     </StyledHeader>
   );
-}
+};
 
 export default Header;

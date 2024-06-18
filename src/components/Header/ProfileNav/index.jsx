@@ -14,12 +14,7 @@ import useAuth from '@/hooks/useAuth.js';
 import useToast from '@/hooks/useToast.js';
 import { postLogout } from '@/apis/member/postLogout.js';
 
-ProfileNav.propTypes = {
-  isLogin: PropTypes.bool,
-  loginUser: PropTypes.object,
-};
-
-function ProfileNav() {
+const ProfileNav = () => {
   const createToast = useToast();
   const navigate = useNavigate();
   const { userInfo, reload } = useAuth();
@@ -66,6 +61,11 @@ function ProfileNav() {
       )}
     </ProfileContainer>
   );
-}
+};
+
+ProfileNav.propTypes = {
+  isLogin: PropTypes.bool,
+  loginUser: PropTypes.object,
+};
 
 export default ProfileNav;

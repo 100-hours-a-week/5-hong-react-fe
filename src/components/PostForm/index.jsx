@@ -16,12 +16,7 @@ import formValidate from '@/components/PostForm/formValidate.js';
 import useForm from '@/hooks/useForm.js';
 import useUploadImage from '@/hooks/useUploadImage.js';
 
-PostForm.propTypes = {
-  data: PropTypes.object,
-  onSubmit: PropTypes.func,
-};
-
-function PostForm({ data, onSubmit }) {
+const PostForm = ({ data, onSubmit }) => {
   console.debug('PostForm() - rendering');
 
   const initialValues = data
@@ -90,6 +85,11 @@ function PostForm({ data, onSubmit }) {
       </ButtonContainer>
     </StyledForm>
   );
-}
+};
+
+PostForm.propTypes = {
+  data: PropTypes.object,
+  onSubmit: PropTypes.func,
+};
 
 export default PostForm;

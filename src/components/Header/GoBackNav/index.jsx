@@ -7,7 +7,7 @@ import {
 
 import goBackImage from '@/assets/images/goBackImage.svg';
 
-function GoBackNav() {
+const GoBackNav = () => {
   const navigate = useNavigate();
 
   const handleGoBackButton = () => {
@@ -20,6 +20,6 @@ function GoBackNav() {
       <StyledImg src={goBackImage} alt='뒤로가기 이미지' />
     </StyledButton>
   );
-}
+};
 
 export default GoBackNav;

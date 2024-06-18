@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
 
 import {
   ButtonContainer,
@@ -11,17 +12,9 @@ import {
 } from '@/components/Modal/Modal.style.js';
 
 import S from '@/styles/common.jsx';
-import PropTypes from 'prop-types';
 import Button from '@/components/Button';
 
-Modal.propTypes = {
-  title: PropTypes.string.isRequired,
-  contents: PropTypes.string.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onConfirm: PropTypes.func.isRequired,
-};
-
-function Modal({ title, contents, onClose, onConfirm }) {
+const Modal = ({ title, contents, onClose, onConfirm }) => {
   console.debug('Modal() - rendering');
 
   const handleContainerClick = (e) => {
@@ -70,6 +63,13 @@ function Modal({ title, contents, onClose, onConfirm }) {
     </ModalWrapper>,
     document.querySelector('#portal'),
   );
-}
+};
+
+Modal.propTypes = {
+  title: PropTypes.string.isRequired,
+  contents: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
+};
 
 export default Modal;

@@ -16,23 +16,14 @@ import useAuth from '@/hooks/useAuth.js';
 import useToast from '@/hooks/useToast.js';
 import { deleteComment } from '@/apis/comment/deleteComment.js';
 
-CommentBox.propTypes = {
-  id: PropTypes.number,
-  contents: PropTypes.string,
-  createdAt: PropTypes.string,
-  author: PropTypes.object,
-  onEditClick: PropTypes.func,
-  onDeleteClick: PropTypes.func,
-};
-
-function CommentBox({
+const CommentBox = ({
   id,
   contents,
   createdAt,
   author,
   onEditClick,
   onDeleteClick,
-}) {
+}) => {
   console.debug('CommentBox() - rendering');
 
   const createToast = useToast();
@@ -86,6 +77,15 @@ function CommentBox({
       )}
     </>
   );
-}
+};
+
+CommentBox.propTypes = {
+  id: PropTypes.number,
+  contents: PropTypes.string,
+  createdAt: PropTypes.string,
+  author: PropTypes.object,
+  onEditClick: PropTypes.func,
+  onDeleteClick: PropTypes.func,
+};
 
 export default CommentBox;

@@ -12,20 +12,7 @@ import {
   StyledLabel,
 } from '@/components/ImageInput/ImageInput.style.js';
 
-ImageInput.propTypes = {
-  id: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  onChange: PropTypes.func,
-  image: PropTypes.string,
-  label: PropTypes.string,
-  helperText: PropTypes.string,
-  showChangeButton: PropTypes.bool,
-  width: PropTypes.string,
-  height: PropTypes.string,
-  $brightness: PropTypes.string,
-};
-
-function ImageInput({
+const ImageInput = ({
   id,
   type,
   onChange,
@@ -37,7 +24,7 @@ function ImageInput({
   showChangeButton = false,
   $brightness = '1',
   ...props
-}) {
+}) => {
   return (
     <>
       <ProfileImageContainer>
@@ -63,6 +50,19 @@ function ImageInput({
       </CenterContainer>
     </>
   );
-}
+};
+
+ImageInput.propTypes = {
+  id: PropTypes.string,
+  type: PropTypes.string,
+  onChange: PropTypes.func,
+  image: PropTypes.string,
+  label: PropTypes.string,
+  helperText: PropTypes.string,
+  showChangeButton: PropTypes.bool,
+  width: PropTypes.string,
+  height: PropTypes.string,
+  $brightness: PropTypes.string,
+};
 
 export default ImageInput;

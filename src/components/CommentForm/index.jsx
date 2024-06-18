@@ -15,24 +15,14 @@ import useToast from '@/hooks/useToast.js';
 import { postCreateComment } from '@/apis/comment/postCreateComment.js';
 import { putUpdateComment } from '@/apis/comment/putUpdateComment.js';
 
-CommentForm.propTypes = {
-  isEditing: PropTypes.bool,
-  setIsEditing: PropTypes.func,
-  currentComment: PropTypes.object,
-  setCurrentComment: PropTypes.func,
-  setPostInfo: PropTypes.func,
-  onUpdateComment: PropTypes.func,
-  onAddComment: PropTypes.func,
-};
-
-function CommentForm({
+const CommentForm = ({
   isEditing,
   setIsEditing,
   currentComment,
   setCurrentComment,
   onUpdateComment,
   onAddComment,
-}) {
+}) => {
   console.debug('CommentForm() - rendering');
 
   const createToast = useToast();
@@ -116,6 +106,16 @@ function CommentForm({
       </SubmitButtonContainer>
     </StyledForm>
   );
-}
+};
+
+CommentForm.propTypes = {
+  isEditing: PropTypes.bool,
+  setIsEditing: PropTypes.func,
+  currentComment: PropTypes.object,
+  setCurrentComment: PropTypes.func,
+  setPostInfo: PropTypes.func,
+  onUpdateComment: PropTypes.func,
+  onAddComment: PropTypes.func,
+};
 
 export default CommentForm;

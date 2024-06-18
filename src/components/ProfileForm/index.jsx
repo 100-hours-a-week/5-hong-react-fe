@@ -22,7 +22,7 @@ import useUploadImage from '@/hooks/useUploadImage.js';
 import { deleteWithdraw } from '@/apis/member/deleteWithdraw.js';
 import { putUpdateProfile } from '@/apis/member/putUpdateProfile.js';
 
-function ProfileForm() {
+const ProfileForm = () => {
   console.debug('ProfileForm() - rendering');
 
   const createToast = useToast();
@@ -136,6 +136,6 @@ function ProfileForm() {
       )}
     </>
   );
-}
+};
 
 export default ProfileForm;
