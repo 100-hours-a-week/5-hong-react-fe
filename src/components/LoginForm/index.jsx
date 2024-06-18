@@ -1,17 +1,20 @@
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+
+import {
+  StyledInputContainer,
+  StyledLoginForm,
+} from '@/components/LoginForm/LoginForm.style.js';
 
 import Input from '@/components/Input';
 import Button from '@/components/Button';
 import PATH from '@/constants/path.js';
-
 import formValidate from '@/components/LoginForm/formValidate.js';
 import useForm from '@/hooks/useForm.js';
 import useAuth from '@/hooks/useAuth.js';
 import useToast from '@/hooks/useToast.js';
 import { postLogin } from '@/apis/member/postLogin.js';
 
-function LoginForm() {
+const LoginForm = () => {
   console.debug('LoginForm() - rendering');
 
   const createToast = useToast();
@@ -76,16 +79,6 @@ function LoginForm() {
       />
     </StyledLoginForm>
   );
-}
+};
 
 export default LoginForm;
-
-const StyledLoginForm = styled.form`
-  width: 100%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-`;
-
-const StyledInputContainer = styled.div`
-  margin-top: 8px;
-`;

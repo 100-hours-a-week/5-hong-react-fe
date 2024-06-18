@@ -1,13 +1,10 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+
+import { Container } from '@/components/PostList/PostList.style.js';
 
 import PreviewPost from '@/components/PreviewPost';
 
-PostList.propTypes = {
-  data: PropTypes.array,
-};
-
-function PostList({ data }) {
+const PostList = ({ data }) => {
   console.debug('PostList() - rendering');
 
   // noinspection JSValidateTypes
@@ -27,18 +24,10 @@ function PostList({ data }) {
       ))}
     </Container>
   );
-}
+};
+
+PostList.propTypes = {
+  data: PropTypes.array,
+};
 
 export default PostList;
-
-const Container = styled.ul`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 13px;
-
-  width: 600px;
-
-  margin: 10px auto;
-`;

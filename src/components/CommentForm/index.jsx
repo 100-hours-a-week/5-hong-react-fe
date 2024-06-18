@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
-
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
+
+import {
+  StyledForm,
+  StyledTextarea,
+  SubmitButtonContainer,
+} from '@/components/CommentForm/CommentForm.style.js';
 
 import S from '@/styles/common.jsx';
 import Button from '@/components/Button';
@@ -11,24 +15,14 @@ import useToast from '@/hooks/useToast.js';
 import { postCreateComment } from '@/apis/comment/postCreateComment.js';
 import { putUpdateComment } from '@/apis/comment/putUpdateComment.js';
 
-CommentForm.propTypes = {
-  isEditing: PropTypes.bool,
-  setIsEditing: PropTypes.func,
-  currentComment: PropTypes.object,
-  setCurrentComment: PropTypes.func,
-  setPostInfo: PropTypes.func,
-  onUpdateComment: PropTypes.func,
-  onAddComment: PropTypes.func,
-};
-
-function CommentForm({
+const CommentForm = ({
   isEditing,
   setIsEditing,
   currentComment,
   setCurrentComment,
   onUpdateComment,
   onAddComment,
-}) {
+}) => {
   console.debug('CommentForm() - rendering');
 
   const createToast = useToast();
@@ -112,37 +106,16 @@ function CommentForm({
       </SubmitButtonContainer>
     </StyledForm>
   );
-}
+};
+
+CommentForm.propTypes = {
+  isEditing: PropTypes.bool,
+  setIsEditing: PropTypes.func,
+  currentComment: PropTypes.object,
+  setCurrentComment: PropTypes.func,
+  setPostInfo: PropTypes.func,
+  onUpdateComment: PropTypes.func,
+  onAddComment: PropTypes.func,
+};
 
 export default CommentForm;
-
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  height: 169px;
-
-  border-radius: 8px;
-  background-color: white;
-`;
-
-const StyledTextarea = styled.textarea`
-  width: 490px;
-  margin-top: 25px;
-
-  height: 95px;
-
-  border: none;
-  outline: none;
-`;
-
-const SubmitButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-
-  width: 100%;
-
-  padding: 10px 0;
-`;

@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+
+import {
+  PostBodyBoxContainer,
+  PostInfoBoxContainer,
+} from '@/components/PostBox/PostBox.style.js';
 
 import S from '@/styles/common.jsx';
-import PostInfoBox from '@/components/PostBox/PostInfoBox.jsx';
-import PostBodyBox from '@/components/PostBox/PostBodyBox.jsx';
+import PostInfoBox from '@/components/PostBox/PostInfoBox';
+import PostBodyBox from '@/components/PostBox/PostBodyBox';
 
-PostBox.propTypes = {
-  data: PropTypes.object,
-};
-
-function PostBox({ data }) {
+const PostBox = ({ data }) => {
   console.debug('PostBox() - rendering');
 
   return (
@@ -35,23 +35,10 @@ function PostBox({ data }) {
       </PostBodyBoxContainer>
     </>
   );
-}
+};
+
+PostBox.propTypes = {
+  data: PropTypes.object,
+};
 
 export default PostBox;
-
-const PostInfoBoxContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  gap: 10px;
-
-  width: 560px; /* TODO: 100% 로 변경 */
-  height: auto;
-  padding-top: 20px;
-`;
-
-const PostBodyBoxContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;

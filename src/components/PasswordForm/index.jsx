@@ -1,16 +1,19 @@
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+
+import {
+  StyledForm,
+  StyledInputContainer,
+} from '@/components/PasswordForm/PasswordForm.style.js';
 
 import Input from '@/components/Input';
 import Button from '@/components/Button';
 import PATH from '@/constants/path.js';
-
 import formValidate from '@/components/PasswordForm/formValidate.js';
 import useForm from '@/hooks/useForm.js';
 import useToast from '@/hooks/useToast.js';
 import { putUpdatePassword } from '@/apis/member/putUpdatePassword.js';
 
-function PasswordForm() {
+const PasswordForm = () => {
   console.debug('PasswordForm() - rendering');
 
   const createToast = useToast();
@@ -75,16 +78,6 @@ function PasswordForm() {
       />
     </StyledForm>
   );
-}
+};
 
 export default PasswordForm;
-
-const StyledForm = styled.form`
-  width: 100%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-`;
-
-const StyledInputContainer = styled.div`
-  margin-top: 8px;
-`;

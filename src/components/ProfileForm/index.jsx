@@ -1,5 +1,11 @@
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+
+import {
+  StyledButton,
+  StyledForm,
+  StyledInputContainer,
+  StyledSubTitle,
+} from '@/components/ProfileForm/ProfileFrom.style.js';
 
 import S from '@/styles/common.jsx';
 import PATH from '@/constants/path.js';
@@ -16,7 +22,7 @@ import useUploadImage from '@/hooks/useUploadImage.js';
 import { deleteWithdraw } from '@/apis/member/deleteWithdraw.js';
 import { putUpdateProfile } from '@/apis/member/putUpdateProfile.js';
 
-function ProfileForm() {
+const ProfileForm = () => {
   console.debug('ProfileForm() - rendering');
 
   const createToast = useToast();
@@ -130,36 +136,6 @@ function ProfileForm() {
       )}
     </>
   );
-}
+};
 
 export default ProfileForm;
-
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  width: 100%;
-  height: auto;
-
-  margin: 10px 0;
-`;
-
-const StyledInputContainer = styled.div`
-  text-align: left;
-`;
-
-const StyledSubTitle = styled.p`
-  display: block;
-
-  font-size: 16px;
-  text-align: left;
-  margin-bottom: 6px;
-`;
-
-const StyledButton = styled.button`
-  margin: 7px 0 0;
-
-  border: none;
-  background-color: var(--white-1);
-`;
