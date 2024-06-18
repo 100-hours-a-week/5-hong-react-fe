@@ -7,8 +7,7 @@ import {
 } from 'react';
 
 import PropTypes from 'prop-types';
-
-import { getUserInfo } from '@/apis/user.js';
+import { getMemberInfo } from '@/apis/member/getMemberInfo.js';
 
 const initialValue = {
   userInfo: null,
@@ -28,7 +27,7 @@ function AuthProvider({ children }) {
 
   const fetchUserInfo = async () => {
     setIsLoading(true);
-    await getUserInfo()
+    await getMemberInfo()
       .then((response) => setUserInfo(response))
       .catch(() => setUserInfo(null));
     setIsLoading(false);

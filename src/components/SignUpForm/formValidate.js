@@ -2,7 +2,8 @@ import emailValidate from '@/utils/emailValidate.js';
 import passwordValidate from '@/utils/passwordValidate.js';
 import nicknameValidate from '@/utils/nicknameValidate.js';
 import VALIDATE_MESSAGES from '@/constants/validateMessages.js';
-import { validateEmail, validateNickname } from '@/apis/user.js';
+import { postCheckEmail } from '@/apis/member/postCheckEmail.js';
+import { postCheckNickname } from '@/apis/member/postCheckNickname.js';
 
 const formValidate = async ({ email, password, passwordConfirm, nickname }) => {
   const validateErrors = {};
@@ -11,7 +12,7 @@ const formValidate = async ({ email, password, passwordConfirm, nickname }) => {
   const { isValid: isEmailValid, message: emailMessage } = emailValidate(email);
   if (!isEmailValid) validateErrors.email = emailMessage;
   else
-    await validateEmail({ email }).catch(
+    await postCheckEmail({ email }).catch(
       () => (validateErrors.email = VALIDATE_MESSAGES.EMAIL.DUPLICATE),
     );
 
@@ -33,7 +34,7 @@ const formValidate = async ({ email, password, passwordConfirm, nickname }) => {
     nicknameValidate(nickname);
   if (!isNicknameValid) validateErrors.nickname = nicknameMessage;
   else
-    await validateNickname({ nickname }).catch(
+    await postCheckNickname({ nickname }).catch(
       () => (validateErrors.nickname = VALIDATE_MESSAGES.NICKNAME.DUPLICATE),
     );
 

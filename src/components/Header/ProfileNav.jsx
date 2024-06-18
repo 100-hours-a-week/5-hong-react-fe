@@ -8,7 +8,7 @@ import PATH from '@/constants/path.js';
 import ProfileImage from '@/components/ProfileImage';
 import useAuth from '@/hooks/useAuth.js';
 import useToast from '@/hooks/useToast.js';
-import { logoutUser } from '@/apis/user.js';
+import { postLogout } from '@/apis/member/postLogout.js';
 
 ProfileNav.propTypes = {
   isLogin: PropTypes.bool,
@@ -30,7 +30,7 @@ function ProfileNav() {
   };
 
   const handleLogout = async () => {
-    await logoutUser()
+    await postLogout()
       .then(() => {
         navigate(PATH.LOGIN);
         setIsOpen(false);

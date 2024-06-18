@@ -65,7 +65,7 @@ function PostForm({ data, onSubmit }) {
       <StyledFileInput
         type={'file'}
         id={'file'}
-        accept={'image/*'}
+        accept={'upload/*'}
         src={image}
         onChange={handleOnUpload}
       />

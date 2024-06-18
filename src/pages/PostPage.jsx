@@ -9,8 +9,8 @@ import CommentList from '@/components/CommentList';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll.js';
 import useFetch from '@/hooks/useFetch.js';
 import withLoading from '@/hoc/withLoading.jsx';
-import { getPostDetail } from '@/apis/post.js';
-import { getCommentList } from '@/apis/comment.js';
+import { getPostDetail } from '@/apis/post/getPostDetail.js';
+import { getCommentList } from '@/apis/comment/getCommentList.js';
 
 const PostBoxWithLoading = withLoading(PostBox);
 

@@ -8,7 +8,8 @@ import S from '@/styles/common.jsx';
 import Button from '@/components/Button';
 import useAuth from '@/hooks/useAuth.js';
 import useToast from '@/hooks/useToast.js';
-import { createComment, updateComment } from '@/apis/comment.js';
+import { postCreateComment } from '@/apis/comment/postCreateComment.js';
+import { putUpdateComment } from '@/apis/comment/putUpdateComment.js';
 
 CommentForm.propTypes = {
   isEditing: PropTypes.bool,
@@ -43,7 +44,7 @@ function CommentForm({
   const handleAddSubmitButton = async (e) => {
     e.preventDefault();
 
-    await createComment(postId, { contents })
+    await postCreateComment({ postId, contents })
       .then((res) => {
         const { commentId } = res;
         const newComment = {
@@ -61,7 +62,7 @@ function CommentForm({
   const handleEditSubmitButton = async (e) => {
     e.preventDefault();
 
-    await updateComment(currentComment.commentId, { contents })
+    await putUpdateComment(currentComment.commentId, { contents })
       .then(() => {
         const updatedComment = {
           ...currentComment,

@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 
 import VALIDATE_MESSAGES from '@/constants/validateMessages.js';
 import useToast from '@/hooks/useToast.js';
-import { uploadImage } from '@/apis/image.js';
+import { postUploadImage } from '@/apis/upload/postUploadImage.js';
 
 function useUploadImage(initialValues) {
   const initialError = VALIDATE_MESSAGES.PROFILE_IMAGE.REQUIRED;
@@ -20,7 +20,7 @@ function useUploadImage(initialValues) {
         return;
       }
 
-      await uploadImage(file)
+      await postUploadImage(file)
         .then((data) => {
           const { image } = data;
           setImage(image);
