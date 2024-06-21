@@ -16,6 +16,7 @@ export const handleTokenError = async (error) => {
   ) {
     const { accessToken } = await postReissueToken();
     originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+    axiosInstance.defaults.headers.Authorization = `Bearer ${accessToken}`;
 
     return axiosInstance(originalRequest);
   }
